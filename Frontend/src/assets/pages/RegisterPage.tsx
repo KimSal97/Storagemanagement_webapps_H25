@@ -12,5 +12,23 @@ const RegisterPage = () => {
         e.preventDefault();
         setError("")
         setSuccess("")
+
+        if(!username.trim()) {
+            setError("Brukernavn-felt mangler")
+            return;
+        }
+
+        if(!email.trim()){
+            setError("E-mail mangler")
+            return;
+        }
+
+        if(!password.trim()){
+            setError("Passord mangler")
+            return;
+        }
+
+        }
     }
+
 }
