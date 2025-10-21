@@ -1,3 +1,5 @@
 /Backend/obj/Debug/net8.0
 Backend/obj/Debug/net8.0/Backend.AssemblyInfo.cs
 Backend/obj/Debug/net8.0/Backend.AssemblyInfoInputs.cache
+/Frontend-v2/node_modules
+Frontend-v2/.env
