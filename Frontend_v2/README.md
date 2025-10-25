@@ -1,24 +1,50 @@
-# RedwoodSDK Minimal Starter
+# Info
 
-This is the starter project for RedwoodSDK. It's a template designed to get you up and running as quickly as possible.
+For å bruke denne må du ha docker installert lokalt.
 
-Create your new project:
+Se [docker sin hjemmeside](https://www.docker.com/get-started/) for installasjonsinstruksjoner
 
-```shell
-npx create-rwsdk my-project-name
-cd my-project-name
-npm install
+Hvis på Mac så anbefales det å bruke [orbstack](https://orbstack.dev/) som er en lettere og raskere versjon av docker desktop
+
+Når docker er installert, så kan du starte prosjektet med
+
+```bash
+docker compose up --build
 ```
 
-## Running the dev server
+Hvis du vil kjøre i bakgrunnen kan du legge til `-d` flagget
 
-```shell
+```bash
+docker compose up --build -d
+```
+
+Hvis du vil stoppe serveren kan du bruke
+
+```bash
+docker compose down
+```
+
+Hvis denne feiler så kan det hende du først må slette node_modules og lock filen. Deretter installere og prøve å starte serveren med uten docker. Dette for å få laget ".wrangler" mappen.
+
+Med pnpm:
+
+```bash
+pnpm install
+pnpm run dev
+```
+
+Med npm:
+
+```bash
+npm install
 npm run dev
 ```
 
-Point your browser to the URL displayed in the terminal (e.g. `http://localhost:5173/`). You should see a "Hello World" message in your browser.
+Deretter prøver å starte med docker igjen.
 
-## Further Reading
+```bash
+docker compose up --build
+```
 
-- [RedwoodSDK Documentation](https://docs.rwsdk.com/)
-- [Cloudflare Workers Documentation](https://developers.cloudflare.com/workers)
+I fremtiden kan du bare bruke `docker compose up` for å starte serveren igjen
+

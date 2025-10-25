@@ -1,29 +1,31 @@
 {
-  // Schema reference for wrangler configuration
   "$schema": "node_modules/wrangler/config-schema.json",
-
-  // Name of your worker
-  "name": "__change_me__",
-
-  // Entry point for your worker
+  "name": "simple-start",
   "main": "src/worker.tsx",
-
-  // Compatibility settings
-  "compatibility_date": "2025-08-21",
-  "compatibility_flags": ["nodejs_compat"],
-
-  // Assets configuration
+  "compatibility_date": "2025-08-29",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "assets": {
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "directory": "public"
   },
-
-  // Observability settings
   "observability": {
     "enabled": true
   },
-
-  // Environment variables
-  "vars": {
-    // Add your environment variables here
-  }
+  "vars": {},
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "simple-start",
+      "database_id": "__change_me__",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "simple-start"
+    },
+  ]
 }
