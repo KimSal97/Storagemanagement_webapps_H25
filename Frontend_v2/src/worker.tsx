@@ -1,78 +1,77 @@
+// src/worker.tsx
 import { defineApp, type RequestInfo } from "rwsdk/worker";
-import { layout, prefix, render, route } from "rwsdk/router";
+import { render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
-import { env } from "cloudflare:workers";
-import { drizzle } from "drizzle-orm/d1";
-import { taskRoutes } from "./features/tasks/tasksRoutes";
-import TaskListPage from "./features/tasks/pages/TaskListPage";
-import { type DB } from "./db";
+import { db } from "./db";
 import { seedData } from "./db/seed";
-import TaskDetailRSC from "./features/tasks/pages/TaskDetailRSC";
-import TaskDetailOld from "./features/tasks/pages/TaskDetailOld";
-import TaskEdit from "./features/tasks/pages/TaskEdit";
-import TaskEditOld from "./features/tasks/pages/TaskEditOld";
-import { MainLayout } from "./components/Layout";
+import { eq } from "drizzle-orm";
 
+// 🌍 Cloudflare miljøvariabler
 export interface Env {
-  DB: DB;
+  DB: D1Database;
 }
 
+// 💾 Context for brukeren
 export type AppContext = {
-  user: User | undefined;
-  authUrl: string;
+  user?: User;
 };
 
+// 🔐 Midlertidig fake-autentisering (for testing)
 const fakeSetUserContext = async (context: RequestInfo) => {
   const { ctx } = context;
   ctx.user = {
     id: 1,
     name: "Test User",
     email: "test@example.com",
+    password: "secret", // ✅ lagt til
   };
-  ctx.user = undefined;
 };
 
+// 🚀 Appdefinisjon
 export default defineApp([
   setCommonHeaders(),
-  fakeSetUserContext, // Run for all routes
+  fakeSetUserContext,
+
+  // 🌱 Seeder (for å fylle databasen manuelt)
   route("/api/seed", async () => {
-    await seedData(env);
+    await seedData();
     return Response.json({ success: true });
-  }), // Seed database route (for windows)
-  prefix("/api/v1/tasks", taskRoutes), // API routes with controllers, services etc.
+  }),
+
+  // 🔍 Sjekk at databasen er tilgjengelig
+  route("/api/health", async () => {
+    const usersCount = (await db.select().from(users)).length;
+    return Response.json({ ok: true, users: usersCount });
+  }),
+
+  // 🔑 Enkel login-rute (test)
+  route("/api/login", async ({ request }) => {
+  const { email, password } = await request.json<{ email: string; password: string }>(); // 👈 typet
+  const found = await db.select().from(users).where(eq(users.email, email)).get();
+
+  if (!found || found.password !== password) {
+    return new Response("Invalid credentials", { status: 401 });
+  }
+
+  return Response.json({ message: "Login successful", user: found });
+}),
+
+
+  // 🏠 Enkel forside
   render(Document, [
     route("/", async () => {
-      // Simple example showing how to use the db directly in the route
-      const userResult = await drizzle(env.DB).select().from(users);
+      const allUsers = await db.select().from(users);
       return (
         <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
-          <h1>Start</h1>
-          <p>Velkommen til eksempel</p>
-          <p>Databasen har {userResult.length} brukere</p>
+          <h1>Velkommen!</h1>
+          <p>Dette er din Cloudflare-app med D1 og Drizzle.</p>
+          <p>Det finnes {allUsers.length} brukere i databasen.</p>
+          <a href="/api/seed">Klikk her for å fylle databasen</a>
         </div>
       );
     }),
-    prefix("/tasks", [
-      () => {
-        const loggedIn = true;
-        if (!loggedIn) {
-          return new Response("Unauthorized", { status: 401 });
-        }
-      }, // Run for all /tasks routes
-      layout(MainLayout, [
-        route("/", TaskListPage), // Page using RSC
-        route("/rsc/:taskId", TaskDetailRSC), // Page using RSC with params
-        route("/old/:taskId", ({ params }) => (
-          <TaskDetailOld params={params} /> // Page using regular rendering with params
-        )),
-        route("/:taskId/edit", TaskEdit), //  Page using server actions with params
-        route("/old/:taskId/edit", ({ params }) => (
-          <TaskEditOld params={params} />
-        )), //  Page using regular pattern for update
-      ]),
-    ]),
   ]),
 ]);
