@@ -1,7 +1,10 @@
 // src/worker.tsx
+
+
 import { defineApp, type RequestInfo } from "rwsdk/worker";
 import { render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
+import SeedResult from "./app/pages/SeedResult";
 
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
@@ -70,6 +73,7 @@ export default defineApp([
           <p>Dette er din Cloudflare-app med D1 og Drizzle.</p>
           <p>Det finnes {allUsers.length} brukere i databasen.</p>
           <a href="/api/seed">Klikk her for å fylle databasen</a>
+          <SeedResult />
         </div>
       );
     }),

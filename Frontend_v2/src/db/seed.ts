@@ -1,3 +1,4 @@
+//src/db/seed.ts
 import { db } from "./index";
 import { users } from "./schema/user-schema";
 
