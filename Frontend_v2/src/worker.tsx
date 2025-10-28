@@ -4,13 +4,13 @@
 import { defineApp, type RequestInfo } from "rwsdk/worker";
 import { render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
-import SeedResult from "./app/pages/SeedResult";
 
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { db } from "./db";
 import { seedData } from "./db/seed";
 import { eq } from "drizzle-orm";
+import { Home } from "@/app/pages/Home";
 
 // 🌍 Cloudflare miljøvariabler
 export interface Env {
@@ -46,9 +46,13 @@ export default defineApp([
 
   // 🔍 Sjekk at databasen er tilgjengelig
   route("/api/health", async () => {
-    const usersCount = (await db.select().from(users)).length;
-    return Response.json({ ok: true, users: usersCount });
-  }),
+  const allUsers = await db.select().from(users);
+  return Response.json({
+    ok: true,
+    count: allUsers.length,
+    users: allUsers,
+  });
+}),
 
   // 🔑 Enkel login-rute (test)
   route("/api/login", async ({ request }) => {
@@ -73,9 +77,9 @@ export default defineApp([
           <p>Dette er din Cloudflare-app med D1 og Drizzle.</p>
           <p>Det finnes {allUsers.length} brukere i databasen.</p>
           <a href="/api/seed">Klikk her for å fylle databasen</a>
-          <SeedResult />
         </div>
       );
     }),
   ]),
+  route("/home", Home),
 ]);
