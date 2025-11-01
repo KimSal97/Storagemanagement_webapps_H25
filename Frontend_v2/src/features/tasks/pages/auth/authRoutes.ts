@@ -1,5 +1,5 @@
 import { route } from "rwsdk/router";
-
+import { authController } from "./authController";
 
 export const authRoutes = [
   // POST /api/auth/register
