@@ -5,7 +5,7 @@ import type { Result } from "@/types/result";
 import { createId } from "@/lib/id"; 
 export interface AuthRepository {
   findByEmail(email: string): Promise<Result<typeof users.$inferSelect>>;
-  create(data: { name: string; email: string; password: string }): Promise<Result<typeof users.$inferSelect>>;
+  createUser(data: { name: string; email: string; password: string }): Promise<Result<typeof users.$inferSelect>>;
 }
 
 export function createAuthRepository(): AuthRepository {
@@ -34,7 +34,7 @@ export function createAuthRepository(): AuthRepository {
       }
     },
 
-    async create(data) {
+    async createUser(data) {
       try {
         const [newUser] = await db
           .insert(users)
