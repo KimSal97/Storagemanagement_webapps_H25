@@ -11,6 +11,7 @@ import { db } from "./db";
 import { seedData } from "./db/seed";
 import { eq } from "drizzle-orm";
 import { Home } from "@/app/pages/Home";
+import { authController } from "./features/tasks/pages/auth/authController";
 
 // 🌍 Cloudflare miljøvariabler
 export interface Env {
