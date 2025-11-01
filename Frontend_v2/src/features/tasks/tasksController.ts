@@ -1,4 +1,4 @@
-/*
+
 import type { RequestInfo } from "rwsdk/worker";
 import { tasksService, type TaskService } from "./tasksService";
 
@@ -86,4 +86,3 @@ export function createTaskController(taskService: TaskService) {
 
 export const tasksController = createTaskController(tasksService);
 
-*/

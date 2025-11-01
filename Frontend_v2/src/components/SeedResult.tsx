@@ -15,7 +15,7 @@ export default function SeedResult() {
     async function load() {
       try {
         const res = await fetch("/api/health");
-        const json = (await res.json()) as HealthResponse; // 👈 typet her
+        const json = (await res.json()) as HealthResponse;
         setData(json);
       } catch (err) {
         console.error(err);

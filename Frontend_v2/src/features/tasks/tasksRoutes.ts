@@ -1,3 +1,4 @@
+
 import { route } from "rwsdk/router";
 import { tasksController } from "./tasksController";
 
@@ -70,3 +71,4 @@ export const taskRoutes = [
     );
   }),
 ];
+
