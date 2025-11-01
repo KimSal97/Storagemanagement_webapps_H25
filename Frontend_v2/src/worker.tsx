@@ -13,6 +13,9 @@ import { eq } from "drizzle-orm";
 import { Home } from "@/app/pages/Home";
 import { authController } from "./features/tasks/pages/auth/authController";
 import { authRoutes } from "./features/tasks/pages/auth/authRoutes";
+import RegisterPage from "../src/pages/Registerpage";
+/*import LoginPage from "../src/pages/LoginPage";*/
+
 
 // 🌍 Cloudflare miljøvariabler
 export interface Env {
@@ -84,6 +87,9 @@ export default defineApp([
     }),
   ]),
   route("/home", Home),
+  route("/register", RegisterPage),
+  /*route("/login", LoginPage),*/
+
   route("/api/auth/register", authController.register),
   route("/api/auth/login", authController.login),
 ]);

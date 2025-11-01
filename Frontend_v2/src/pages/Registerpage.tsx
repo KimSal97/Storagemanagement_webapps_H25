@@ -1,5 +1,12 @@
+"use client";
 import React, { useState } from "react"
-import type { ApiResponse } from "../types/api"
+import type { Result } from "@/types/result"; 
+
+type RegisterResponse = {
+  id: string;
+  username: string;
+  email: string;
+};
 
 const Registerpage = () => {
     const [username, setUsername] = useState("")
@@ -32,28 +39,26 @@ const Registerpage = () => {
         }
 
         try {
-            const response = await fetch("/api/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, email, password }),
-            });
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      });
 
-            const data: ApiResponse = await response.json();
+      const data: Result<RegisterResponse> = await response.json();
 
-            if (!response.ok) {
-                setError(data.message);
-                return;
-            }
+      if (!data.success) {
+        setError(data.error?.message ?? "Noe gikk galt under registrering");
+        return;
+      }
 
-            setSuccess(data.message);
-        } catch {
-            setError("Kunne ikke koble til serveren.");
-        }
-        finally {
-            setLoading(false);
-        }
-
+      setSuccess(`Bruker opprettet: ${data.data.username}`);
+    } catch (err) {
+      setError("Kunne ikke koble til serveren.");
+    } finally {
+      setLoading(false);
     }
+  };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
