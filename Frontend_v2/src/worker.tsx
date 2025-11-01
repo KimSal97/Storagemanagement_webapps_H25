@@ -84,7 +84,6 @@ export default defineApp([
     }),
   ]),
   route("/home", Home),
-  route("/api/auth", authRoutes),
   route("/api/auth/register", authController.register),
   route("/api/auth/login", authController.login),
 ]);
