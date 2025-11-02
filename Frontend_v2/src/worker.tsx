@@ -11,10 +11,10 @@ import { db } from "./db";
 import { seedData } from "./db/seed";
 import { eq } from "drizzle-orm";
 import { Home } from "@/app/pages/Home";
-import { authController } from "./features/tasks/pages/auth/authController";
-import { authRoutes } from "./features/tasks/pages/auth/authRoutes";
+import { authController } from "./features/tasks/auth/auth/authController";
+import { authRoutes } from "./features/tasks/auth/auth/authRoutes";
 import RegisterPage from "../src/pages/Registerpage";
-/*import LoginPage from "../src/pages/LoginPage";*/
+import LoginPage from "../src/pages/LoginPage";
 
 
 // 🌍 Cloudflare miljøvariabler
@@ -86,10 +86,9 @@ export default defineApp([
       );
     }),
   ]),
-  route("/home", Home),
-  route("/register", RegisterPage),
-  /*route("/login", LoginPage),*/
 
-  route("/api/auth/register", authController.register),
-  route("/api/auth/login", authController.login),
+    route("/", Home),
+    route("/register", RegisterPage),
+    route("/login", LoginPage),
+
 ]);
