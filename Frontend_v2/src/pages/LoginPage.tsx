@@ -4,7 +4,7 @@ import type { Result } from "../types/result";
 import { navigate } from "rwsdk/client";
 
 
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,6 +34,7 @@ const LoginPage: React.FC = () => {
         setError(data.error.message);
         return;
       }
+       navigate("/dashboard");
 
     } catch {
       setError("Kunne ikke koble til serveren");

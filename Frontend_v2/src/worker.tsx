@@ -12,6 +12,7 @@ import { eq } from "drizzle-orm";
 import { authController } from "./features/auth/authController";
 import RegisterPage from "./pages/Registerpage";
 import LoginPage from "./pages/LoginPage";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 
 // 🌍 Cloudflare miljøvariabler
@@ -90,5 +91,6 @@ export default defineApp([
   render(Document, [
     route("/login", LoginPage),
     route("/register", RegisterPage),
+    route("/dashboard", Dashboard),
   ]),
 ]);
