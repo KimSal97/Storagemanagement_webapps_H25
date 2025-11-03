@@ -4,17 +4,14 @@
 import { defineApp, type RequestInfo } from "rwsdk/worker";
 import { render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
-
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { db } from "./db";
 import { seedData } from "./db/seed";
 import { eq } from "drizzle-orm";
-import { Home } from "@/app/pages/Home";
-import { authController } from "./features/tasks/pages/auth/authController";
-import { authRoutes } from "./features/tasks/pages/auth/authRoutes";
-import RegisterPage from "../src/pages/Registerpage";
-/*import LoginPage from "../src/pages/LoginPage";*/
+import { authController } from "./features/auth/authController";
+import RegisterPage from "./pages/Registerpage";
+import LoginPage from "./pages/LoginPage";
 
 
 // 🌍 Cloudflare miljøvariabler
@@ -51,25 +48,25 @@ export default defineApp([
 
   // 🔍 Sjekk at databasen er tilgjengelig
   route("/api/health", async () => {
-  const allUsers = await db.select().from(users);
-  return Response.json({
-    ok: true,
-    count: allUsers.length,
-    users: allUsers,
-  });
-}),
+    const allUsers = await db.select().from(users);
+    return Response.json({
+      ok: true,
+      count: allUsers.length,
+      users: allUsers,
+    });
+  }),
 
   // 🔑 Enkel login-rute (test)
   route("/api/login", async ({ request }) => {
-  const { email, password } = await request.json<{ email: string; password: string }>(); // 👈 typet
-  const found = await db.select().from(users).where(eq(users.email, email)).get();
+    const { email, password } = await request.json<{ email: string; password: string }>(); // 👈 typet
+    const found = await db.select().from(users).where(eq(users.email, email)).get();
 
-  if (!found || found.password !== password) {
-    return new Response("Invalid credentials", { status: 401 });
-  }
+    if (!found || found.password !== password) {
+      return new Response("Invalid credentials", { status: 401 });
+    }
 
-  return Response.json({ message: "Login successful", user: found });
-}),
+    return Response.json({ message: "Login successful", user: found });
+  }),
 
 
   // 🏠 Enkel forside
@@ -86,10 +83,12 @@ export default defineApp([
       );
     }),
   ]),
-  route("/home", Home),
-  route("/register", RegisterPage),
-  /*route("/login", LoginPage),*/
 
   route("/api/auth/register", authController.register),
   route("/api/auth/login", authController.login),
+
+  render(Document, [
+    route("/login", LoginPage),
+    route("/register", RegisterPage),
+  ]),
 ]);
