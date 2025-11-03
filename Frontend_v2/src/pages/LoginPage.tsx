@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import type { Result } from "../types/result";
+import { navigate } from "rwsdk/client";
 
 
 const LoginPage: React.FC = () => {
@@ -34,7 +35,6 @@ const LoginPage: React.FC = () => {
         return;
       }
 
-      navigate("/");
     } catch {
       setError("Kunne ikke koble til serveren");
     } finally {
