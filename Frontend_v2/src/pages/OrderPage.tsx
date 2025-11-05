@@ -22,12 +22,20 @@ const OrderPage = () => {
                 title="Product Name"
                 price={29.99}
                 image="/path/to/image.jpg"
+                baseStock={100}
+                minimumStock={20}
+                dailySales={5}
+                supplyTimeDays={10}
                 Status="good"
             />
             <ProductCard 
                 title="Another Product"
                 price={49.99}
                 image="/path/to/another-image.jpg"
+                baseStock={50}
+                minimumStock={15}
+                dailySales={8}
+                supplyTimeDays={14}
                 Status="warning"
             />
           </p>
