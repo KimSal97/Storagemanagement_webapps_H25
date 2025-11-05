@@ -3,9 +3,7 @@
   "name": "simple-start",
   "main": "src/worker.tsx",
   "compatibility_date": "2025-08-29",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "binding": "ASSETS",
     "directory": "public"
@@ -18,7 +16,7 @@
     {
       "binding": "DB",
       "database_name": "databaseManagement",
-      "database_id": "03321251-a439-4513-978b-c11b802f4cf9",
+      "database_id": "e7900a96-cb32-4acd-8354-1ec3ec61b31c",
       "migrations_dir": "drizzle"
     }
   ],
@@ -26,6 +24,6 @@
     {
       "binding": "R2",
       "bucket_name": "simple-start"
-    },
+    }
   ]
 }
