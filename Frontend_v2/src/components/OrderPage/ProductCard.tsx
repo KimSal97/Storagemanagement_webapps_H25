@@ -30,6 +30,12 @@ export default function ProductCard({
                     Manage
                 </button>
             </div>
+            <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col">
+                    <span className="text-sm text-gray-500">baseStock</span>
+                    <span className="text-md font-medium text-gray-800">{baseStock}</span>
+                </div>
         </div>
+    </div>
     );
 }
