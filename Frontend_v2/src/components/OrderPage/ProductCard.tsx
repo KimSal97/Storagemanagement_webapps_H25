@@ -3,7 +3,7 @@
 interface ProductCardProps {
     title: string;
     price: number;
-    image: string;
+    image?: string;
     baseStock: number;
     minimumStock: number;
     dailySales: number;
@@ -14,7 +14,7 @@ interface ProductCardProps {
 export default function ProductCard({
     title,
     price,
-    image,
+    image = "src/app/shared/missing.png",
     baseStock,
     minimumStock,
     dailySales,
@@ -24,6 +24,13 @@ export default function ProductCard({
 
     return (
         <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md mb-6">
+            <div className="flex gap-4 items-center mb-4">
+                <img
+                    src={image}
+                    alt={title}
+                    className="object-cover w-full h-full rounded"
+                />
+            </div>
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
                 <button className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
@@ -34,18 +41,22 @@ export default function ProductCard({
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">baseStock</span>
                     <span className="font-semibold">{baseStock}</span>
+                    <input type="range" min="0" max="200" className="w-full mt-2" />
                 </div>
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">minimumStock</span>
                     <span className="font-semibold">{minimumStock}</span>
+                    <input type="range" min="0" max="200" className="w-full mt-2" />
                 </div>
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">dailySales</span>
                     <span className="font-semibold">{dailySales}</span>
+                    <input type="range" min="0" max="200" className="w-full mt-2" />
                 </div>
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">supplyTimeDays</span>
                     <span className="font-semibold">{supplyTimeDays}</span>
+                    <input type="range" min="0" max="200" className="w-full mt-2" />
                 </div>
             </div>
             <div className="mt-4 flex items-center">

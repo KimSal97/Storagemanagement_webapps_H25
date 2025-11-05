@@ -17,11 +17,9 @@ const OrderPage = () => {
           <h1 className="text-2xl font-semibold text-gray-800 mb-4">
             Bestillinger
           </h1>
-          <p className="text-gray-600">
             <ProductCard 
                 title="Product Name"
                 price={29.99}
-                image="/path/to/image.jpg"
                 baseStock={100}
                 minimumStock={20}
                 dailySales={5}
@@ -31,14 +29,12 @@ const OrderPage = () => {
             <ProductCard 
                 title="Another Product"
                 price={49.99}
-                image="/path/to/another-image.jpg"
                 baseStock={50}
                 minimumStock={15}
                 dailySales={8}
                 supplyTimeDays={14}
                 Status="warning"
             />
-          </p>
         </main>
       </div>
     </div>
