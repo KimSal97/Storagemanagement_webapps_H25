@@ -24,7 +24,7 @@ export default function ProductCard({
 
     return (
         <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md">
-            <div className="flex justify between items-center w-full mb-4">
+            <div className="flex justify between items-center mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
                 <button className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                     Manage
@@ -34,6 +34,18 @@ export default function ProductCard({
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">baseStock</span>
                     <span className="font-semibold">{baseStock}</span>
+                </div>
+                <div className="flex flex-col">
+                    <span className="text-sm text-gray-500">minimumStock</span>
+                    <span className="font-semibold">{minimumStock}</span>
+                </div>
+                <div className="flex flex-col">
+                    <span className="text-sm text-gray-500">dailySales</span>
+                    <span className="font-semibold">{dailySales}</span>
+                </div>
+                <div className="flex flex-col">
+                    <span className="text-sm text-gray-500">supplyTimeDays</span>
+                    <span className="font-semibold">{supplyTimeDays}</span>
                 </div>
             </div>
         </div>
