@@ -11,7 +11,18 @@ interface ProductCardProps {
     Status: "good | warning | critical";
 }
 
-export default function ProductCard() {
+export default function ProductCard({
+    title,
+    price,
+    image,
+    baseStock,
+    minimumStock,
+    dailySales,
+    supplyTimeDays,
+    Status
+}: ProductCardProps) {
+    
+
     return (
         <div>ProductCard</div>
     );
