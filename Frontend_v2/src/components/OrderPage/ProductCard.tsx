@@ -48,6 +48,15 @@ export default function ProductCard({
                     <span className="font-semibold">{supplyTimeDays}</span>
                 </div>
             </div>
+            <div className="mt-4 flex items-center">
+                <span className="text-xl font-bold text-gray-800">Status: </span>
+                <span className={`font-medium ml-2 ${
+                    Status === "good" ? "text-green-600" :
+                    Status === "warning" ? "text-yellow-600" :
+                    "text-red-600"
+                }`}>{Status}
+                </span>
+            </div>
         </div>
     );
 }
