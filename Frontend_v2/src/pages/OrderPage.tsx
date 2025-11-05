@@ -2,13 +2,26 @@
 import React, { useState } from "react";
 import type { Result } from "../types/result";
 import { navigate } from "rwsdk/client";
+import Sidebar from "../components/Dashboard/Sidebar";
+import Header from "../components/Dashboard/Header";
 
 const OrderPage = () => {
+
     return (
-        <div>
-            <h1>Order Page</h1>
-            <p></p>
-        </div>
+    <div className="flex min-h-screen bg-gray-50">
+      <Sidebar />
+      <div className="flex-1 flex flex-col">
+        <Header />
+        <main className="flex-1 p-6">
+          <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+            Bestillinger
+          </h1>
+          <p className="text-gray-600">
+            Lorem ipsum
+          </p>
+        </main>
+      </div>
+    </div>
     );
 }
 export default OrderPage;
