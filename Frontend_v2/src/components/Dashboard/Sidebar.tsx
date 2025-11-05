@@ -16,6 +16,9 @@ export default function Sidebar() {
         <a href="/products" className="flex items-center gap-2 text-gray-700 hover:text-blue-600">
           <Package size={18} /> Produkter
         </a>
+        <a href="/orders" className="flex items-center gap-2 text-gray-700 hover:text-blue-600">
+          <Package size={18} /> Bestillinger
+        </a>
       </nav>
 
       <button className="flex items-center gap-2 text-gray-500 hover:text-red-500 p-4 border-t">
