@@ -4,6 +4,7 @@ import type { Result } from "../types/result";
 import { navigate } from "rwsdk/client";
 import Sidebar from "../components/Dashboard/Sidebar";
 import Header from "../components/Dashboard/Header";
+import ProductCard from "../components/OrderPage/ProductCard";
 
 const OrderPage = () => {
 
@@ -17,7 +18,18 @@ const OrderPage = () => {
             Bestillinger
           </h1>
           <p className="text-gray-600">
-            Lorem ipsum
+            <ProductCard 
+                title="Product Name"
+                price={29.99}
+                image="/path/to/image.jpg"
+                Status="good"
+            />
+            <ProductCard 
+                title="Another Product"
+                price={49.99}
+                image="/path/to/another-image.jpg"
+                Status="warning"
+            />
           </p>
         </main>
       </div>
