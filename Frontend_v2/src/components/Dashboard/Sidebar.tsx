@@ -26,7 +26,7 @@ export default function Sidebar() {
   const menuItems = [
     { id: "dashboard", label: "Dashbord", icon: LayoutDashboard, href: "/dashboard" },
     { id: "products", label: "Produkter", icon: Package, href: "/products" },
-    { id: "orderHistory", label: "Bestillingshistorikk", icon: Clock, href: "/orderHistory" },
+    { id: "orderHistory", label: "Bestillingshistorikk", icon: Clock, href: "/order-history" },
     { id: "statistics", label: "Statistikk", icon: BarChart3, href: "/statistics" },
     { id: "suppliers", label: "Leverandører", icon: Star, href: "/suppliers" },
     { id: "settings", label: "Innstillinger", icon: Settings, href: "/settings" },
@@ -46,7 +46,7 @@ export default function Sidebar() {
               setActive(id);
               navigate(href);
             }}
-            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition cursor-pointer ${
               active === id
                 ? "bg-blue-100 text-blue-600 font-semibold"
                 : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"

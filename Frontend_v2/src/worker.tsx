@@ -13,6 +13,7 @@ import { authController } from "./features/auth/authController";
 import RegisterPage from "./pages/Registerpage";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./components/Dashboard/Dashboard";
+import OrderHistory from "@/components/OrderHistory/OrderHistory";
 
 
 // 🌍 Cloudflare miljøvariabler
@@ -92,5 +93,6 @@ export default defineApp([
     route("/login", LoginPage),
     route("/register", RegisterPage),
     route("/dashboard", Dashboard),
+    route("/order-history", OrderHistory),
   ]),
 ]);
