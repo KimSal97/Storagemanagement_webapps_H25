@@ -1,6 +1,6 @@
 export type OrderStatus = "Mottatt" | "Underveis" | "Kansellert";
 
-export type OrderTypes = {
+export type OrderHistoryTypes = {
   id: string;
   date: string;
   products: string[];

@@ -1,7 +1,7 @@
 import OrderRow from "./OrderRow";
-import { OrderTypes } from "./OrderTypes";
+import { OrderHistoryTypes } from "./OrderHistoryTypes";
 
-export default function OrderTable({ orders }: { orders: OrderTypes[] }) {
+export default function OrderTable({ orders }: { orders: OrderHistoryTypes[] }) {
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
       <table className="w-full text-sm text-left">
