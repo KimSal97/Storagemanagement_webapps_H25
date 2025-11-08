@@ -4,19 +4,11 @@ import Sidebar from "../Dashboard/Sidebar";
 import OrderTable from "./OrderTable";
 import OrderFilter from "./OrderFilter";
 import OrderSort from "./OrderSort";
+import { OrderTypes, OrderStatus } from "./OrderTypes";
 
-type OrderStatus = "Mottatt" | "Underveis" | "Kansellert";
-
-type Order = {
-  id: string;
-  date: string;
-  products: string[];
-  supplier: string;
-  status: OrderStatus;
-};
 
 export default function OrderHistory() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderTypes[]>([]);
   const [sortBy, setSortBy] = useState("nyest");
   const [filterStatus, setFilterStatus] = useState<OrderStatus[]>([]);
 
@@ -25,7 +17,7 @@ export default function OrderHistory() {
       try {
         const res = await fetch("/api/orders");
         if (!res.ok) throw new Error("Kunne ikke hente ordrer");
-        const data: Order[] = await res.json();
+        const data: OrderTypes[] = await res.json();
         setOrders(data);
       } catch (err) {
         console.error("Feil ved lasting av ordrer:", err);

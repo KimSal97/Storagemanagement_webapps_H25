@@ -1,14 +1,7 @@
 import OrderRow from "./OrderRow";
+import { OrderTypes } from "./OrderTypes";
 
-type Order = {
-  id: string;
-  date: string;
-  products: string[];
-  supplier: string;
-  status: string;
-};
-
-export default function OrderTable({ orders }: { orders: Order[] }) {
+export default function OrderTable({ orders }: { orders: OrderTypes[] }) {
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
       <table className="w-full text-sm text-left">
