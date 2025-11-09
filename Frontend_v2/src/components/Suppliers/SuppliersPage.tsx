@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../Dashboard/Sidebar";
 import SuppliersTable from "./SuppliersTable";
-import SupplierTypes from "./SupplierTypes"
+import {SupplierTypes} from "./SupplierTypes"
 
 export default function SuppliersPage() {
   const [suppliers, setSuppliers] = useState<SupplierTypes[]>([]);

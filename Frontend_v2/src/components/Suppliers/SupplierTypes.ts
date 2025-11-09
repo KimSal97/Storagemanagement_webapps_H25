@@ -7,3 +7,4 @@ export type SupplierTypes = {
   products: string;
   status: "Aktiv" | "Inaktiv";
 };
+
