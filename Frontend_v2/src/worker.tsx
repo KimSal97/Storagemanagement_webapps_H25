@@ -15,6 +15,7 @@ import OrderHistory from "@/components/OrderHistory/OrderHistory";
 import SuppliersPage from "./components/Suppliers/SuppliersPage";
 import { createId } from "./lib/id";
 import { suppliers } from "./db/schema/suppliers-schema";
+import { suppliersRoutes } from "./features/suppliers/suppliersRoutes";
 
 // Cloudflare miljøvariabler
 export interface Env {
@@ -37,52 +38,31 @@ const fakeSetUserContext = async (context: RequestInfo) => {
   };
 };
 
-// Seeder for testdata
-  route("/api/seed", async () => {
-    await seedData();
-    return Response.json({ success: true });
-  })
-
 // Appdefinisjon
 export default defineApp([
   setCommonHeaders(),
   fakeSetUserContext,
+  ...suppliersRoutes,
+
+  // Seeder for testdata
+  route("/api/seed", async () => {
+    await seedData();
+    return Response.json({ success: true });
+  }),
 
   // Healthcheck
   route("/api/health", async () => {
-    const allUsers = await db.select().from(users);
-    return Response.json({
-      ok: true,
-      count: allUsers.length,
-      users: allUsers,
-    });
-  }),
+  const allUsers = await db.select().from(users);
+  const allSuppliers = await db.select().from(suppliers);
 
-  //Opprett ny leverandør 
-  route("/api/suppliers", async ({ request }) => {
-    const data = await request.json<{
-      name: string;
-      contactPerson: string;
-      email: string;
-      phone: string;
-      address?: string;
-    }>();
-
-    if (!data.name || !data.contactPerson || !data.email || !data.phone) {
-      return new Response("Alle obligatoriske felt må fylles ut", { status: 400 });
-    }
-
-    await db.insert(suppliers).values({
-      id: createId(),
-      name: data.name,
-      contactPerson: data.contactPerson,
-      email: data.email,
-      phone: data.phone,
-      address: data.address,
-    });
-
-    return Response.json({ success: true });
-  }),
+  return Response.json({
+    ok: true,
+    userCount: allUsers.length,
+    supplierCount: allSuppliers.length,
+    users: allUsers,
+    suppliers: allSuppliers,
+  });
+}),
 
   // Auth controller routes
   route("/api/auth/register", authController.register),

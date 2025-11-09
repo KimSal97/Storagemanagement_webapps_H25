@@ -38,7 +38,7 @@ export async function seedData() {
       {
         id: createId(),
         name: "Bama Gruppen",
-        contactPerson: "Per Frukt",
+        contact_person: "Per Frukt",
         email: "post@bama.no",
         phone: "22 11 33 44",
         address: "veien 80, Oslo",
@@ -46,7 +46,7 @@ export async function seedData() {
       {
         id: createId(),
         name: "Tine SA",
-        contactPerson: "Anne Melk",
+        contact_person: "Anne Melk",
         email: "post@tine.no",
         phone: "22 22 55 66",
         address: "Veien 23, Oslo",
@@ -54,7 +54,7 @@ export async function seedData() {
       {
         id: createId(),
         name: "NorgesGruppen Logistikk",
-        contactPerson: "Kari Logistikk",
+        contact_person: "Kari Logistikk",
         email: "post@ng.no",
         phone: "23 45 67 89",
         address: "Veien 12, Oslo",
