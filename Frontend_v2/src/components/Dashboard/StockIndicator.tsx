@@ -1,4 +1,3 @@
-@ -0,0 +1,10 @@
 export default function StockIndicator({ stock, min }: { stock: number; min: number }) {
   const ratio = stock / min;
   let color = "bg-gray-400";

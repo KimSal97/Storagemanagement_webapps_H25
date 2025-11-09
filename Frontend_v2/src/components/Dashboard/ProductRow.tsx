@@ -1,4 +1,3 @@
-@ -0,0 +1,26 @@
 import StockIndicator from "./StockIndicator";
 
 interface Product {
