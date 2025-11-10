@@ -1,3 +1,4 @@
+//drizzle.congif.ts
 import "dotenv/config";
 import { defineConfig } from "drizzle-kit";
 
