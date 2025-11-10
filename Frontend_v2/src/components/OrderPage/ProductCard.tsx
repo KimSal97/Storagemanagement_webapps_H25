@@ -55,24 +55,18 @@ export default function ProductCard({
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col">
-                    <span className="text-sm text-gray-500">baseStock</span>
-                    <span className="font-semibold">{baseStock}</span>
-                    <ProductCardSlider value={sliderValue}/>
-                </div>
-                <div className="flex flex-col">
-                    <span className="text-sm text-gray-500">minimumStock</span>
-                    <span className="font-semibold">{minimumStock}</span>
-                    <ProductCardSlider/>
-                </div>
-                <div className="flex flex-col">
-                    <span className="text-sm text-gray-500">dailySales</span>
-                    <span className="font-semibold">{dailySales}</span>
-                    <ProductCardSlider/>
-                </div>
-                <div className="flex flex-col">
-                    <span className="text-sm text-gray-500">supplyTimeDays</span>
-                    <span className="font-semibold">{supplyTimeDays}</span>
-                    <ProductCardSlider/>
+                    <ProductCardSlider
+                    name="baseStock"
+                    label="baseStock"
+                    value={sliderValue.baseStock}
+                    onChange={handleSliderChange}
+                    />
+                    <ProductCardSlider
+                    name="minimumStock"
+                    label="minimumStock"
+                    value={sliderValue.minimumStock}
+                    onChange={handleSliderChange}
+                    />
                 </div>
             </div>
             <div className="mt-4 flex items-center">
