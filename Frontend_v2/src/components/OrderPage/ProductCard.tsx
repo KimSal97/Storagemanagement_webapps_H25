@@ -56,16 +56,15 @@ export default function ProductCard({
             <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col">
                     <ProductCardSlider
-                    name="baseStock"
                     label="baseStock"
                     value={sliderValue.baseStock}
-                    onChange={handleSliderChange}
+                    onChange={(sliderV) => handleSliderChange("baseStock", sliderV)}
                     />
                     <ProductCardSlider
-                    name="minimumStock"
                     label="minimumStock"
                     value={sliderValue.minimumStock}
-                    onChange={handleSliderChange}
+                    max = {1000}
+                    onChange={(sliderV) => handleSliderChange("minimumStock", sliderV)}
                     />
                 </div>
             </div>

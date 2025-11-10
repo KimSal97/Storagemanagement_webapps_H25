@@ -1,23 +1,20 @@
 "use client";
 
-type SliderValues = {
-    baseStock: number;
-    minimumStock: number;
-    dailySales: number;
-    supplyTimeDays: number;
-};
-
 type ProductCardSliderProps = {
-    name: keyof SliderValues
-    label: string;
+    label?: string;
     value: number;
-    onChange: (name: keyof SliderValues, value: number) => void;
+    min?: number;
+    max?: number;
+    step?: number;
+    onChange: (value: number) => void;
 };
 
 export default function ProductCardSlider({
-    name,
     label,
     value,
+    min = 0,
+    max = 200,
+    step = 1,
     onChange,
 }: ProductCardSliderProps) {
     return (
@@ -27,11 +24,12 @@ export default function ProductCardSlider({
             <span className="font-semibold">{value}</span>
             <input
                 type="range"
-                min="0"
-                max="200"
+                min={min}
+                max={max}
+                step = {step}
                 className="w-full"
                 value={value}
-                onChange={(e) => onChange(name, Number(e.target.value))}
+                onChange={(e) => onChange(Number(e.target.value))}
              />
         </div>
     </>
