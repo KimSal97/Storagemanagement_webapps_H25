@@ -1,5 +1,12 @@
 "use client";
 
+type SliderValues = {
+    baseStock: number;
+    minimumStock: number;
+    dailySales: number;
+    supplyTimeDays: number;
+};
+
 export default function ProductCardSlider() { 
     return (
     <>
