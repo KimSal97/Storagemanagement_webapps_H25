@@ -2,42 +2,42 @@
 import { defineApp, type RequestInfo } from "rwsdk/worker";
 import { render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
-import { User, users } from "./db/schema/user-schema";
-import { db } from "./db";
+import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { seedData } from "./db/seed";
-import { setCommonHeaders } from "./app/headers";
-import { authController } from "./features/auth/authController";
-import RegisterPage from "./pages/Registerpage";
-import LoginPage from "./pages/LoginPage";
-import Dashboard from "./components/Dashboard/Dashboard";
-import OrderHistory from "@/components/OrderHistory/OrderHistory";
-import SuppliersPage from "./components/Suppliers/SuppliersPage";
-import { createId } from "./lib/id";
-import { suppliers } from "./db/schema/suppliers-schema";
-import { suppliersRoutes } from "./features/suppliers/suppliersRoutes";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
-import { passwordResets } from "./db/schema/password-reset-schema";
+import { seedData } from "@/db/seed";
+import { setCommonHeaders } from "@/app/headers";
 
-// Cloudflare miljøvariabler
+import { users } from "@/db/schema/user-schema";
+import { suppliers } from "@/db/schema/suppliers-schema";
+
+
+import { authRoutes } from "@/features/auth/authRoutes";
+import { suppliersRoutes } from "@/features/suppliers/suppliersRoutes";
+
+import RegisterPage from "@/pages/Registerpage";
+import LoginPage from "@/pages/LoginPage";
+import Dashboard from "@/components/Dashboard/Dashboard";
+import OrderHistory from "@/components/OrderHistory/OrderHistory";
+import SuppliersPage from "@/components/Suppliers/SuppliersPage";
+import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
+import ResetPasswordPage from "@/pages/ResetPasswordPage";
+
+// App context 
 export interface Env {
   DB: D1Database;
 }
 
-// Context for brukeren
 export type AppContext = {
-  user?: User;
+  user?: { id: string; name: string; email: string };
 };
 
-// Midlertidig fake-autentisering (for testing)
+// Midlertidig fake-auth (for utvikling)
 const fakeSetUserContext = async (context: RequestInfo) => {
   const { ctx } = context;
   ctx.user = {
-    id: 1,
+    id: "1",
     name: "Test User",
     email: "test@example.com",
-    password: "secret",
   };
 };
 
@@ -45,6 +45,8 @@ const fakeSetUserContext = async (context: RequestInfo) => {
 export default defineApp([
   setCommonHeaders(),
   fakeSetUserContext,
+
+  ...authRoutes,
   ...suppliersRoutes,
 
   // Seeder for testdata
@@ -67,11 +69,7 @@ export default defineApp([
     });
   }),
 
-  // Auth controller routes
-  route("/api/auth/register", authController.register),
-  route("/api/auth/login", authController.login),
-
-  // Frontend-routes
+  // Home 
   render(Document, [
     route("/", async () => {
       const allUsers = await db.select().from(users);
@@ -84,12 +82,14 @@ export default defineApp([
         </div>
       );
     }),
+
+    // Frontend-ruter
     route("/login", LoginPage),
     route("/register", RegisterPage),
+    route("/forgot-password", ForgotPasswordPage),
+    route("/reset-password", ResetPasswordPage),
     route("/dashboard", Dashboard),
     route("/order-history", OrderHistory),
     route("/suppliers", SuppliersPage),
-    route("/forgot-password", ForgotPasswordPage),
-    route("/reset-password", ResetPasswordPage),
   ]),
 ]);
