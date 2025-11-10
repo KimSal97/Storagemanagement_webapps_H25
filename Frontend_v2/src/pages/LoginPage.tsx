@@ -34,7 +34,7 @@ const LoginPage = () => {
         setError(data.error.message);
         return;
       }
-       navigate("/dashboard");
+      navigate("/dashboard");
 
     } catch {
       setError("Kunne ikke koble til serveren");
@@ -84,8 +84,11 @@ const LoginPage = () => {
             className="text-blue-600 cursor-pointer hover:underline"
           >
             <a href="/register" className="text-blue-600 hover:underline">
-             Registrer deg her
+              Registrer deg her
             </a>
+            <p className="mt-2 text-sm text-center text-blue-600 cursor-pointer hover:underline" onClick={() => navigate("/forgot-password")}>
+              Glemt passord?
+            </p>
           </span>
         </p>
       </div>

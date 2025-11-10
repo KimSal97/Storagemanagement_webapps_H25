@@ -15,6 +15,13 @@
       "when": 1762686517830,
       "tag": "0001_heavy_ezekiel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1762771841697,
+      "tag": "0002_striped_johnny_storm",
+      "breakpoints": true
     }
   ]
 }

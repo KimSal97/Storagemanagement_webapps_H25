@@ -16,6 +16,9 @@ import SuppliersPage from "./components/Suppliers/SuppliersPage";
 import { createId } from "./lib/id";
 import { suppliers } from "./db/schema/suppliers-schema";
 import { suppliersRoutes } from "./features/suppliers/suppliersRoutes";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import { passwordResets } from "./db/schema/password-reset-schema";
 
 // Cloudflare miljøvariabler
 export interface Env {
@@ -52,17 +55,17 @@ export default defineApp([
 
   // Healthcheck
   route("/api/health", async () => {
-  const allUsers = await db.select().from(users);
-  const allSuppliers = await db.select().from(suppliers);
+    const allUsers = await db.select().from(users);
+    const allSuppliers = await db.select().from(suppliers);
 
-  return Response.json({
-    ok: true,
-    userCount: allUsers.length,
-    supplierCount: allSuppliers.length,
-    users: allUsers,
-    suppliers: allSuppliers,
-  });
-}),
+    return Response.json({
+      ok: true,
+      userCount: allUsers.length,
+      supplierCount: allSuppliers.length,
+      users: allUsers,
+      suppliers: allSuppliers,
+    });
+  }),
 
   // Auth controller routes
   route("/api/auth/register", authController.register),
@@ -86,5 +89,7 @@ export default defineApp([
     route("/dashboard", Dashboard),
     route("/order-history", OrderHistory),
     route("/suppliers", SuppliersPage),
+    route("/forgot-password", ForgotPasswordPage),
+    route("/reset-password", ResetPasswordPage),
   ]),
 ]);
