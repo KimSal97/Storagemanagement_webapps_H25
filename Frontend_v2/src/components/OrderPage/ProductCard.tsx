@@ -1,5 +1,9 @@
 "use client";
 
+import { Sliders } from "lucide-react";
+import ProductCardSlider from "./ProductCardSlider";
+import React from "react";
+
 interface ProductCardProps {
     title: string;
     price: number;
@@ -20,7 +24,19 @@ export default function ProductCard({
     dailySales,
     supplyTimeDays = 7,
     Status
-}: ProductCardProps) { 
+}: ProductCardProps) {
+    const [sliderValue, setSliders] = React.useState({
+        baseStock: baseStock,
+        minimumStock: minimumStock,
+        dailySales: dailySales,
+        supplyTimeDays: supplyTimeDays,
+    });
+      const handleSliderChange = (name: keyof typeof sliderValue, value: number) => {
+    setSliders(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  }; 
 
     return (
         <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md mb-6">
@@ -41,22 +57,22 @@ export default function ProductCard({
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">baseStock</span>
                     <span className="font-semibold">{baseStock}</span>
-                    <input type="range" min="0" max="200" className="w-full mt-2" />
+                    <ProductCardSlider value={sliderValue}/>
                 </div>
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">minimumStock</span>
                     <span className="font-semibold">{minimumStock}</span>
-                    <input type="range" min="0" max="200" className="w-full mt-2" />
+                    <ProductCardSlider/>
                 </div>
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">dailySales</span>
                     <span className="font-semibold">{dailySales}</span>
-                    <input type="range" min="0" max="200" className="w-full mt-2" />
+                    <ProductCardSlider/>
                 </div>
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">supplyTimeDays</span>
                     <span className="font-semibold">{supplyTimeDays}</span>
-                    <input type="range" min="0" max="200" className="w-full mt-2" />
+                    <ProductCardSlider/>
                 </div>
             </div>
             <div className="mt-4 flex items-center">
