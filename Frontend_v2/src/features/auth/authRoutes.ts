@@ -1,7 +1,7 @@
 // src/features/auth/authRoutes.ts
 import { route } from "rwsdk/router";
 import { authController } from "./authController";
-import { passwordController } from "./passwordcontroller";
+import { passwordController } from "./passwordController";
 
 export const authRoutes = [
   // POST /api/auth/register
