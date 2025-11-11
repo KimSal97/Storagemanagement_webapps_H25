@@ -1,11 +1,12 @@
-import 'dotenv/config';
-import { defineConfig } from 'drizzle-kit';
+//drizzle.congif.ts
+import "dotenv/config";
+import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  out: './drizzle',
+  out: "./drizzle",
   schema: "./src/db/schema",
-  dialect: 'sqlite',
-  driver: 'd1-http',
+  dialect: "sqlite",
+  driver: "d1-http",
   dbCredentials: {
     accountId: process.env.CLOUDFLARE_ACCOUNT_ID!,
     databaseId: process.env.CLOUDFLARE_DATABASE_ID!,
