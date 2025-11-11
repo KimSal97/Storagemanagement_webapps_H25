@@ -1,25 +1,37 @@
-import OrderRow from "./OrderRow";
 import { OrderHistoryTypes } from "./OrderHistoryTypes";
 
-export default function OrderTable({ orders }: { orders: OrderHistoryTypes[] }) {
+type Props = {
+  orders: OrderHistoryTypes[];
+  onOrderClick: (order: OrderHistoryTypes) => void;
+};
+
+export default function OrderTable({ orders, onOrderClick }: Props) {
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-      <table className="w-full text-sm text-left">
-        <thead className="bg-gray-100 text-gray-700">
-          <tr>
-            <th className="px-4 py-2">Dato</th>
-            <th className="px-4 py-2">Bestilling ID</th>
-            <th className="px-4 py-2">Produkt(er)</th>
-            <th className="px-4 py-2">Leverandør</th>
-            <th className="px-4 py-2">Status</th>
+    <table className="w-full bg-white border rounded-lg shadow-sm">
+      <thead className="bg-gray-100 text-left">
+        <tr>
+          <th className="p-3">Ordre-ID</th>
+          <th className="p-3">Dato</th>
+          <th className="p-3">Status</th>
+          <th className="p-3">Leverandør</th>
+          <th className="p-3">Beløp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order) => (
+          <tr
+            key={order.id}
+            onClick={() => onOrderClick(order)}
+            className="cursor-pointer hover:bg-gray-50 transition"
+          >
+            <td className="p-3">{order.id}</td>
+            <td className="p-3">{order.date}</td>
+            <td className="p-3">{order.status}</td>
+            <td className="p-3">{order.supplier}</td>
+            <td className="p-3">{order.total} kr</td>
           </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <OrderRow key={order.id} order={order} />
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }

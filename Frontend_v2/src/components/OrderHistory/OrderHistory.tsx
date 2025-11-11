@@ -5,12 +5,14 @@ import OrderTable from "./OrderTable";
 import OrderFilter from "./OrderFilter";
 import OrderSort from "./OrderSort";
 import { OrderHistoryTypes, OrderStatus } from "./OrderHistoryTypes";
-
+import OrderDetailsModal from "./OrderDetailsModal";
 
 export default function OrderHistory() {
   const [orders, setOrders] = useState<OrderHistoryTypes[]>([]);
   const [sortBy, setSortBy] = useState("nyest");
   const [filterStatus, setFilterStatus] = useState<OrderStatus[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<OrderHistoryTypes | null>(null); // ← ny
+  const [isModalOpen, setIsModalOpen] = useState(false); // ← ny
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -38,6 +40,12 @@ export default function OrderHistory() {
       ? sortedOrders.filter((o) => filterStatus.includes(o.status))
       : sortedOrders;
 
+  // Når en ordre klikkes:
+  const handleOrderClick = (order: OrderHistoryTypes) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
@@ -53,8 +61,18 @@ export default function OrderHistory() {
             className="border rounded-lg px-3 py-2 w-72 text-sm"
           />
         </div>
+
         <h1 className="text-2xl font-semibold text-center mb-6">Bestillingshistorikk</h1>
-        <OrderTable orders={filteredOrders} />
+
+        <OrderTable orders={filteredOrders} onOrderClick={handleOrderClick} />
+
+        {/* Modal */}
+        {isModalOpen && selectedOrder && (
+          <OrderDetailsModal
+            order={selectedOrder}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </div>
     </div>
   );
