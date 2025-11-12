@@ -2,3 +2,4 @@
 
 export * from "./user-schema";
 export * from "./suppliers-schema";
+export * from "./products-schema";
