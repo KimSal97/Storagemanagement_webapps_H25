@@ -13,14 +13,16 @@ import { suppliers } from "@/db/schema/suppliers-schema";
 
 import { authRoutes } from "@/features/auth/authRoutes";
 import { suppliersRoutes } from "@/features/suppliers/suppliersRoutes";
+import { productsRoutes } from "@/features/products/productsRoutes"; 
 
-import RegisterPage from "@/pages/Registerpage";
+import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
 import Dashboard from "@/components/Dashboard/Dashboard";
 import OrderHistory from "@/components/OrderHistory/OrderHistory";
 import SuppliersPage from "@/components/Suppliers/SuppliersPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
+import ProductsPage from "@/components/Products/ProductsPage";
 
 // App context 
 export interface Env {
@@ -48,6 +50,7 @@ export default defineApp([
 
   ...authRoutes,
   ...suppliersRoutes,
+  ...productsRoutes,
 
   // Seeder for testdata
   route("/api/seed", async () => {
@@ -91,5 +94,6 @@ export default defineApp([
     route("/dashboard", Dashboard),
     route("/order-history", OrderHistory),
     route("/suppliers", SuppliersPage),
+    route("/products", ProductsPage),
   ]),
 ]);
