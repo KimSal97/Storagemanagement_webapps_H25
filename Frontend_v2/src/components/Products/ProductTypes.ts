@@ -7,4 +7,5 @@ export type Product = {
   price: number;
   supplier: string;
   location: string;
+  image: string; 
 };

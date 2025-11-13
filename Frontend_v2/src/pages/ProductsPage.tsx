@@ -2,74 +2,89 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../Dashboard/Sidebar";
 import ProductTable from "./ProductTable";
-import AddEditProductModal from "./AddEditProductModal";
-import DeleteConfirmModal from "./DeleteConfirmModal";
 import type { Product } from "./ProductTypes";
+import AddEditProductModal from "./modals/AddEditProductModal";
+import DeleteConfirmModal from "./modals/DeleteConfirmModal";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Product | null>(null);
+
   const [showModal, setShowModal] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
-  // 🔹 Hent produkter fra API
-  useEffect(() => {
-    const fetchProducts = async () => {
+  // --- Fetch products ---
+  const loadProducts = async () => {
+    try {
       const res = await fetch("/api/products");
       const data = await res.json();
       setProducts(data);
-    };
-    fetchProducts();
-  }, []);
-
-  const handleDelete = async (id: string) => {
-    await fetch(`/api/products/${id}`, { method: "DELETE" });
-    setProducts(products.filter((p) => p.id !== id));
-    setShowDelete(false);
+    } catch (err) {
+      console.error("Feil ved lasting av produkter:", err);
+    }
   };
 
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  // --- Filter products ---
+  const filtered = products.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  // --- Handle Save (Create or Update) ---
   const handleSave = async (product: Product) => {
-    if (selected) {
-      // Oppdater eksisterende
+    if (product.id) {
+      // UPDATE
       await fetch(`/api/products/${product.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
       });
-      setProducts(products.map((p) => (p.id === product.id ? product : p)));
     } else {
-      // Nytt produkt
-      const res = await fetch("/api/products", {
+      // CREATE
+      await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
       });
-      const newProduct = await res.json();
-      setProducts([...products, newProduct]);
     }
+
     setShowModal(false);
     setSelected(null);
+    loadProducts();
   };
 
-  const filtered = products.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // --- Handle Delete ---
+  const handleDelete = async (id: string) => {
+    await fetch(`/api/products/${id}`, { method: "DELETE" });
+    setShowDelete(false);
+    loadProducts();
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
+
       <div className="flex-1 p-6">
+        {/* HEADER ROW */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-semibold">Produkter</h1>
+
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => {
+              setSelected(null);
+              setShowModal(true);
+            }}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
           >
             ➕ Legg til produkt
           </button>
         </div>
 
+        {/* SEARCH */}
         <input
           type="text"
           placeholder="Søk etter produkt..."
@@ -78,6 +93,7 @@ export default function ProductsPage() {
           className="border rounded-lg px-3 py-2 w-72 mb-4"
         />
 
+        {/* PRODUCT TABLE */}
         <ProductTable
           products={filtered}
           onEdit={(p) => {
@@ -90,6 +106,7 @@ export default function ProductsPage() {
           }}
         />
 
+        {/* ADD/EDIT MODAL */}
         {showModal && (
           <AddEditProductModal
             product={selected}
@@ -101,6 +118,7 @@ export default function ProductsPage() {
           />
         )}
 
+        {/* DELETE CONFIRM MODAL */}
         {showDelete && selected && (
           <DeleteConfirmModal
             product={selected}
