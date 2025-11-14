@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import Sidebar from "../Dashboard/Sidebar";
-import ProductTable from "./ProductTable";
-import type { Product } from "./ProductTypes";
-import AddEditProductModal from "./modals/AddEditProductModal";
+import Sidebar from "@/components/Dashboard/Sidebar";
+import ProductTable from "@/components/Products/ProductTable";
+import type { Product } from "@/components/Products/ProductTypes";
+import AddEditProductModal from "/modals/AddEditProductModal";
 import DeleteConfirmModal from "./modals/DeleteConfirmModal";
 
 export default function ProductsPage() {
@@ -14,7 +14,6 @@ export default function ProductsPage() {
   const [showModal, setShowModal] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
-  // --- Fetch products ---
   const loadProducts = async () => {
     try {
       const res = await fetch("/api/products");
@@ -29,12 +28,10 @@ export default function ProductsPage() {
     loadProducts();
   }, []);
 
-  // --- Filter products ---
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // --- Handle Save (Create or Update) ---
   const handleSave = async (product: Product) => {
     if (product.id) {
       // UPDATE
@@ -44,7 +41,7 @@ export default function ProductsPage() {
         body: JSON.stringify(product),
       });
     } else {
-      // CREATE
+ 
       await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -57,7 +54,6 @@ export default function ProductsPage() {
     loadProducts();
   };
 
-  // --- Handle Delete ---
   const handleDelete = async (id: string) => {
     await fetch(`/api/products/${id}`, { method: "DELETE" });
     setShowDelete(false);
@@ -69,7 +65,7 @@ export default function ProductsPage() {
       <Sidebar />
 
       <div className="flex-1 p-6">
-        {/* HEADER ROW */}
+
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-semibold">Produkter</h1>
 
@@ -80,11 +76,10 @@ export default function ProductsPage() {
             }}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
           >
-            ➕ Legg til produkt
+           Legg til produkt
           </button>
         </div>
 
-        {/* SEARCH */}
         <input
           type="text"
           placeholder="Søk etter produkt..."
@@ -93,7 +88,6 @@ export default function ProductsPage() {
           className="border rounded-lg px-3 py-2 w-72 mb-4"
         />
 
-        {/* PRODUCT TABLE */}
         <ProductTable
           products={filtered}
           onEdit={(p) => {
@@ -106,7 +100,6 @@ export default function ProductsPage() {
           }}
         />
 
-        {/* ADD/EDIT MODAL */}
         {showModal && (
           <AddEditProductModal
             product={selected}
@@ -118,7 +111,6 @@ export default function ProductsPage() {
           />
         )}
 
-        {/* DELETE CONFIRM MODAL */}
         {showDelete && selected && (
           <DeleteConfirmModal
             product={selected}
