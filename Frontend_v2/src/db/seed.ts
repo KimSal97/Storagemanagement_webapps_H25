@@ -29,7 +29,7 @@ export async function seedData() {
         password: "abcd",
       },
     ]);
-    console.log("✅ Users seeded");
+    console.log("Users seeded");
   }
 
   //Seed suppliers

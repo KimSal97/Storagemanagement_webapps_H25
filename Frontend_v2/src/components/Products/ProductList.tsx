@@ -1,13 +1,6 @@
 "use client";
 import ProductRow from "./ProductRow";
-
-interface Product {
-  id: string;
-  name: string;
-  stock: number;
-  minStock: number;
-  location: string;
-}
+import { Product } from "@/components/Products/ProductTypes";
 
 export default function ProductList({ products }: { products: Product[] }) {
   return (

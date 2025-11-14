@@ -1,9 +1,9 @@
-// src/features/products/productsRepository.ts
 import { db } from "@/db";
-import { products } from "./products-schema";
+import { products } from "@/db/schema/products-schema";
 import { eq } from "drizzle-orm";
 import { createId } from "@/lib/id";
-import type { NewProduct } from "./products-schema";
+
+export type NewProductInput = Omit<typeof products.$inferInsert, "id">;
 
 export const productsRepository = {
   async findAll() {
@@ -14,13 +14,13 @@ export const productsRepository = {
     return await db.select().from(products).where(eq(products.id, id)).get();
   },
 
-  async create(data: NewProduct) {
-    const newProduct = { id: createId(), ...data };
+  async create(data: NewProductInput) {
+    const newProduct = { ...data, id: createId() };
     await db.insert(products).values(newProduct);
     return newProduct;
   },
 
-  async update(id: string, data: Partial<NewProduct>) {
+  async update(id: string, data: Partial<NewProductInput>) {
     await db.update(products).set(data).where(eq(products.id, id));
   },
 

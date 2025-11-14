@@ -1,12 +1,5 @@
-import StockIndicator from "./StockIndicator";
-
-interface Product {
-  id: string;
-  name: string;
-  stock: number;
-  minStock: number;
-  location: string;
-}
+import StockIndicator from "../Dashboard/StockIndicator";
+import { Product } from "@/components/Products/ProductTypes";
 
 export default function ProductRow({ product }: { product: Product }) {
   const { name, stock, minStock, location } = product;
