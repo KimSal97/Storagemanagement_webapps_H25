@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Sidebar from "@/components/Dashboard/Sidebar";
 import ProductTable from "@/components/Products/ProductTable";
 import type { Product } from "@/components/Products/ProductTypes";
-import AddEditProductModal from "/modals/AddEditProductModal";
-import DeleteConfirmModal from "./modals/DeleteConfirmModal";
+import AddEditProductModal from "@/components/Products/AddEditProductModal";
+import DeleteConfirmModal from "@/components/Products/DeleteConfirmModal";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -17,7 +17,7 @@ export default function ProductsPage() {
   const loadProducts = async () => {
     try {
       const res = await fetch("/api/products");
-      const data = await res.json();
+      const data: Product[] = await res.json();
       setProducts(data);
     } catch (err) {
       console.error("Feil ved lasting av produkter:", err);
@@ -34,7 +34,6 @@ export default function ProductsPage() {
 
   const handleSave = async (product: Product) => {
     if (product.id) {
-      // UPDATE
       await fetch(`/api/products/${product.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

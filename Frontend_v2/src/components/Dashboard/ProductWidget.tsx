@@ -11,11 +11,12 @@ export default function ProductWidget({ products }: { products: Product[] }) {
     <div className="bg-white rounded-xl shadow p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Lav beholdning</h2>
+
         <a
           href="/products"
           className="text-blue-600 text-sm hover:underline"
         >
-          Se alle →
+          Se alle
         </a>
       </div>
 

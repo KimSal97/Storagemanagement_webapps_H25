@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import RecentSoldProducts from "./RecentSoldProducts";
-import ProductList from "@/components/Products/ProductList";
 import ProductWidget from "./ProductWidget";
-import { Product } from "@/components/Products/ProductTypes";
+import type { Product } from "@/components/Products/ProductTypes";
 
 export default function Dashboard() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,21 +29,15 @@ export default function Dashboard() {
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
   );
-
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-
       <div className="flex-1 flex flex-col gap-6 p-6">
         <Header onSearch={setSearch} />
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ProductWidget products={products} />
-          <RecentSoldProducts products={products.slice(0, 5)} />
+          <RecentSoldProducts products={filtered.slice(0, 5)} />
         </div>
-
-        {/* Main list */}
-        <ProductList products={filtered} />
       </div>
     </div>
   );

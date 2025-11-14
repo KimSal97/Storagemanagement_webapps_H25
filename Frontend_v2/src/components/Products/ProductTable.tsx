@@ -25,7 +25,12 @@ export default function ProductTable({
         </thead>
         <tbody>
           {products.map((p) => (
-            <ProductRow key={p.id} product={p} onEdit={onEdit} onDelete={onDelete} />
+            <ProductRow
+              key={p.id}
+              product={p}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
           ))}
         </tbody>
       </table>
