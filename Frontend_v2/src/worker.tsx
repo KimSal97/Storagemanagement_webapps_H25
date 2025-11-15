@@ -12,6 +12,7 @@ import { suppliers } from "@/db/schema/suppliers-schema";
 
 import { authRoutes } from "@/features/auth/authRoutes";
 import { suppliersRoutes } from "@/features/suppliers/suppliersRoutes";
+import { productsRoutes } from "@/features/products/productsRoutes";
 
 import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
@@ -48,6 +49,7 @@ export default defineApp([
 
   ...authRoutes,
   ...suppliersRoutes,
+  ...productsRoutes,
 
   // Seeder for testdata
   route("/api/seed", async () => {

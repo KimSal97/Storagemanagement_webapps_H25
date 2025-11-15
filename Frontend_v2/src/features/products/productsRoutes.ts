@@ -1,4 +1,3 @@
-// src/features/products/productsRoutes.ts
 import { route } from "rwsdk/router";
 import { productsController } from "./productsController";
 

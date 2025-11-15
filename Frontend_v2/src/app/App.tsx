@@ -5,7 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import RegisterPage from "@/pages/Registerpage";
+import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
 
 // Denne komponenten rendres både på server (RWSDK) og klient

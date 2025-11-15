@@ -1,19 +1,27 @@
 // src/db/seed.ts
 import { createId } from "@/lib/id";
 import { db } from "./index";
+
 import { users } from "./schema/user-schema";
 import { suppliers } from "./schema/suppliers-schema";
+
+import { products } from "./schema/products-schema";
 
 export async function seedData() {
   const existingUsers = await db.select().from(users);
   const existingSuppliers = await db.select().from(suppliers);
+  const existingProducts = await db.select().from(products);
 
-  if (existingUsers.length > 0 && existingSuppliers.length > 0) {
+  if (
+    existingUsers.length > 0 &&
+    existingSuppliers.length > 0 &&
+    existingProducts.length > 0
+  ) {
     console.log("Database already seeded.");
     return;
   }
 
-  // Seed users
+  // Seed USERS
   if (existingUsers.length === 0) {
     await db.insert(users).values([
       {
@@ -29,10 +37,11 @@ export async function seedData() {
         password: "abcd",
       },
     ]);
+
     console.log("Users seeded");
   }
 
-  //Seed suppliers
+  // Seed SUPPLIERS
   if (existingSuppliers.length === 0) {
     await db.insert(suppliers).values([
       {
@@ -41,7 +50,7 @@ export async function seedData() {
         contact_person: "Per Frukt",
         email: "post@bama.no",
         phone: "22 11 33 44",
-        address: "veien 80, Oslo",
+        address: "Veien 80, Oslo",
       },
       {
         id: createId(),
@@ -60,7 +69,38 @@ export async function seedData() {
         address: "Veien 12, Oslo",
       },
     ]);
+
     console.log("Suppliers seeded");
+  }
+
+  // Seed PRODUCTS
+  if (existingProducts.length === 0) {
+    await db.insert(products).values([
+      {
+        id: createId(),
+        name: "Testvare",
+        category: "Diverse",
+        stock: 50,
+        minStock: 10,
+        price: 199,
+        supplier: "Bama Gruppen",
+        location: "Hylle C1",
+        image: "https://example.com/test.png",
+      },
+      {
+        id: createId(),
+        name: "Hammer",
+        category: "Verktøy",
+        stock: 15,
+        minStock: 5,
+        price: 149,
+        supplier: "Tine SA",
+        location: "Hylle B2",
+        image: "https://example.com/hammer.png",
+      },
+    ]);
+
+    console.log("Products seeded");
   }
 
   console.log("Database seeded successfully!");

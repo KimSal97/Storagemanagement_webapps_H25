@@ -5,11 +5,12 @@ export const products = sqliteTable("products", {
   id: text("id").primaryKey().notNull(),
   name: text("name").notNull(),
   category: text("category").notNull(),
-  stock: integer("stock").notNull(),
-  minStock: integer("min_stock").notNull(),
-  price: real("price").notNull(),
+  stock: integer("stock"),
+  minStock: integer("min_stock"),
+  price: real("price"),
   supplier: text("supplier").notNull(),
   location: text("location").notNull(),
+  image: text("image"),
 });
 
 export type Product = typeof products.$inferSelect;
