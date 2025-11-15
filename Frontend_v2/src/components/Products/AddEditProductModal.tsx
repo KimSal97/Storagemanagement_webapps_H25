@@ -38,13 +38,19 @@ export default function AddEditProductModal({
     onSave(form);
   };
 
+  const numberInputClasses = `
+    border rounded-lg px-3 py-2 w-full
+    [appearance:textfield]
+    [&::-webkit-inner-spin-button]:appearance-none
+    [&::-webkit-outer-spin-button]:appearance-none
+  `;
+
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-lg rounded-xl p-6 shadow-lg">
         <h2 className="text-xl font-semibold mb-4">
           {product ? "Rediger produkt" : "Legg til produkt"}
         </h2>
-
         <div className="space-y-3">
           <input
             type="text"
@@ -61,33 +67,44 @@ export default function AddEditProductModal({
             onChange={(e) => handleChange("category", e.target.value)}
             className="border rounded-lg px-3 py-2 w-full"
           />
-
           <div className="grid grid-cols-2 gap-3">
             <input
               type="number"
               placeholder="Lagerbeholdning"
-              value={form.stock}
-              onChange={(e) => handleChange("stock", Number(e.target.value))}
-              className="border rounded-lg px-3 py-2 w-full"
+              value={form.stock === 0 ? "" : form.stock}
+              onChange={(e) =>
+                handleChange(
+                  "stock",
+                  e.target.value === "" ? 0 : Number(e.target.value)
+                )
+              }
+              className={numberInputClasses}
             />
-
             <input
               type="number"
               placeholder="Minste beholdning"
-              value={form.minStock}
-              onChange={(e) => handleChange("minStock", Number(e.target.value))}
-              className="border rounded-lg px-3 py-2 w-full"
+              value={form.minStock === 0 ? "" : form.minStock}
+              onChange={(e) =>
+                handleChange(
+                  "minStock",
+                  e.target.value === "" ? 0 : Number(e.target.value)
+                )
+              }
+              className={numberInputClasses}
             />
           </div>
-
           <input
             type="number"
             placeholder="Pris"
-            value={form.price}
-            onChange={(e) => handleChange("price", Number(e.target.value))}
-            className="border rounded-lg px-3 py-2 w-full"
+            value={form.price === 0 ? "" : form.price}
+            onChange={(e) =>
+              handleChange(
+                "price",
+                e.target.value === "" ? 0 : Number(e.target.value)
+              )
+            }
+            className={numberInputClasses}
           />
-
           <input
             type="text"
             placeholder="Leverandør"
@@ -95,7 +112,6 @@ export default function AddEditProductModal({
             onChange={(e) => handleChange("supplier", e.target.value)}
             className="border rounded-lg px-3 py-2 w-full"
           />
-
           <input
             type="text"
             placeholder="Lokasjon"
@@ -103,7 +119,6 @@ export default function AddEditProductModal({
             onChange={(e) => handleChange("location", e.target.value)}
             className="border rounded-lg px-3 py-2 w-full"
           />
-
           <input
             type="text"
             placeholder="Bilde-URL"
@@ -112,7 +127,6 @@ export default function AddEditProductModal({
             className="border rounded-lg px-3 py-2 w-full"
           />
         </div>
-
         <div className="flex justify-end mt-6 space-x-3">
           <button
             onClick={onClose}
