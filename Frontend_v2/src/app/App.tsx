@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
+import OrderPage from "@/pages/OrderPage";
 
 // Denne komponenten rendres både på server (RWSDK) og klient
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
         <Routes>
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/order" element= {<OrderPage />} />
         </Routes>
       </StaticRouter>
     );
@@ -32,6 +34,7 @@ export default function App() {
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/order" element= {<OrderPage />} />
       </Routes>
     </BrowserRouter>
   );
