@@ -1,67 +1,65 @@
-// src/db/seed.ts
-import { createId } from "@/lib/id";
-import { db } from "./index";
-import { users } from "./schema/user-schema";
-import { suppliers } from "./schema/suppliers-schema";
+import { initDB } from "./index";
+import { users, suppliers } from "@/db/schema/schemaindex";
+import type { Env } from "@/worker"; 
+import { sql } from "drizzle-orm";
 
-export async function seedData() {
+// IMPORTANT: pass db through worker (ctx.db), not import db directly
+export async function seedData(db: ReturnType<typeof initDB>) {
+  // Check existing data
   const existingUsers = await db.select().from(users);
   const existingSuppliers = await db.select().from(suppliers);
 
+  // If both tables already seeded, skip
   if (existingUsers.length > 0 && existingSuppliers.length > 0) {
     console.log("Database already seeded.");
     return;
   }
 
-  // Seed users
+  // ---------- USERS ----------
   if (existingUsers.length === 0) {
     await db.insert(users).values([
       {
-        id: createId(),
-        name: "Admin User",
+        fullName: "Admin User",
         email: "admin@example.com",
-        password: "1234",
+        passwordHash: "1234", // you should hash this later
+        role: "admin",
       },
       {
-        id: createId(),
-        name: "John Doe",
+        fullName: "John Doe",
         email: "john@example.com",
-        password: "abcd",
+        passwordHash: "abcd",
+        role: "user",
       },
     ]);
+
     console.log("✅ Users seeded");
   }
 
-  //Seed suppliers
+  // ---------- SUPPLIERS ----------
   if (existingSuppliers.length === 0) {
     await db.insert(suppliers).values([
       {
-        id: createId(),
         name: "Bama Gruppen",
-        contact_person: "Per Frukt",
         email: "post@bama.no",
         phone: "22 11 33 44",
-        address: "veien 80, Oslo",
+        apiKey: null,
       },
       {
-        id: createId(),
         name: "Tine SA",
-        contact_person: "Anne Melk",
         email: "post@tine.no",
         phone: "22 22 55 66",
-        address: "Veien 23, Oslo",
+        apiKey: null,
       },
       {
-        id: createId(),
         name: "NorgesGruppen Logistikk",
-        contact_person: "Kari Logistikk",
         email: "post@ng.no",
         phone: "23 45 67 89",
-        address: "Veien 12, Oslo",
+        apiKey: null,
       },
     ]);
-    console.log("Suppliers seeded");
+
+    console.log("✅ Suppliers seeded");
   }
 
-  console.log("Database seeded successfully!");
+  console.log("🎉 Database seeded successfully!");
 }
