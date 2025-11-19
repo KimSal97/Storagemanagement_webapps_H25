@@ -1,6 +1,14 @@
+// src/components/OrderPage/ProductCardSlider.tsx
 "use client";
 
-import type { ProductCardSliderProps } from "./OrderTypes";
+export type ProductCardSliderProps = {
+  label?: string;
+  value: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  onChange: (value: number) => void;
+};
 
 export default function ProductCardSlider({
   label,

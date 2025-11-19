@@ -3,6 +3,7 @@
 export type OrderStatus = "good" | "warning" | "critical";
 
 export type OrderProduct = {
+  id: string;
   title: string;
   price: number;
   baseStock: number;
@@ -11,13 +12,4 @@ export type OrderProduct = {
   supplyTimeDays?: number;
   Status: OrderStatus;
   image?: string;
-};
-
-export type ProductCardSliderProps = {
-  label?: string;
-  value: number;
-  min?: number;
-  max?: number;
-  step?: number;
-  onChange: (value: number) => void;
 };

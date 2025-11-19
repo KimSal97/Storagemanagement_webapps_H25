@@ -1,10 +1,9 @@
+// src/components/OrderPage/ProductCard.tsx
 "use client";
 
 import React from "react";
 import ProductCardSlider from "./ProductCardSlider";
 import type { OrderProduct } from "./OrderTypes";
-
-export type ProductCardProps = OrderProduct;
 
 export default function ProductCard({
   title,
@@ -15,7 +14,7 @@ export default function ProductCard({
   dailySales,
   supplyTimeDays = 7,
   Status,
-}: ProductCardProps) {
+}: OrderProduct) {
   const [sliderValue, setSliders] = React.useState({
     baseStock,
     minimumStock,
