@@ -14,7 +14,8 @@ import { authRoutes } from "@/features/auth/authRoutes";
 import { suppliersRoutes } from "@/features/suppliers/suppliersRoutes";
 import { productsRoutes } from "@/features/products/productsRoutes";
 
-import RegisterPage from "@/pages/RegisterPage";
+import RegisterPage from "@/pages/Registerpage";
+import OrderPage from "@/pages/OrderPage";
 import LoginPage from "@/pages/LoginPage";
 import Dashboard from "@/components/Dashboard/Dashboard";
 import OrderHistory from "@/components/OrderHistory/OrderHistory";
@@ -91,6 +92,7 @@ export default defineApp([
     route("/forgot-password", ForgotPasswordPage),
     route("/reset-password", ResetPasswordPage),
     route("/dashboard", Dashboard),
+    route("/order", OrderPage),
     route("/order-history", OrderHistory),
     route("/suppliers", SuppliersPage),
     route("/products", ProductsPage)

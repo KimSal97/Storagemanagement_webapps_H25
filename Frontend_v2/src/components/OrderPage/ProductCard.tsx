@@ -1,82 +1,97 @@
 "use client";
 
-import { Sliders } from "lucide-react";
-import ProductCardSlider from "./ProductCardSlider";
 import React from "react";
+import ProductCardSlider from "./ProductCardSlider";
+import type { OrderProduct } from "./OrderTypes";
 
-interface ProductCardProps {
-    title: string;
-    price: number;
-    image?: string;
-    baseStock: number;
-    minimumStock: number;
-    dailySales: number;
-    supplyTimeDays?: number;
-    Status: "good" | "warning" | "critical";
-}
+export type ProductCardProps = OrderProduct;
 
 export default function ProductCard({
-    title,
-    price,
-    image = "src/app/shared/missing.png",
+  title,
+  price,
+  image = "/src/app/shared/missing.png",
+  baseStock,
+  minimumStock,
+  dailySales,
+  supplyTimeDays = 7,
+  Status,
+}: ProductCardProps) {
+  const [sliderValue, setSliders] = React.useState({
     baseStock,
     minimumStock,
     dailySales,
-    supplyTimeDays = 7,
-    Status
-}: ProductCardProps) {
-    const [sliderValue, setSliders] = React.useState({
-        baseStock: baseStock,
-        minimumStock: minimumStock,
-        dailySales: dailySales,
-        supplyTimeDays: supplyTimeDays,
-    });
-      const handleSliderChange = (name: keyof typeof sliderValue, value: number) => {
-    setSliders(prev => ({
+    supplyTimeDays,
+  });
+
+  const handleSliderChange = (
+    name: keyof typeof sliderValue,
+    value: number
+  ) => {
+    setSliders((prev) => ({
       ...prev,
       [name]: value,
     }));
-  }; 
+  };
 
-    return (
-        <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md mb-6">
-            <div className="flex gap-4 items-center mb-4">
-                <img
-                    src={image}
-                    alt={title}
-                    className="object-cover w-full h-full rounded"
-                />
-            </div>
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-                <button className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Manage
-                </button>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                    <ProductCardSlider
-                    label="baseStock"
-                    value={sliderValue.baseStock}
-                    onChange={(sliderV) => handleSliderChange("baseStock", sliderV)}
-                    />
-                    <ProductCardSlider
-                    label="minimumStock"
-                    value={sliderValue.minimumStock}
-                    max = {1000}
-                    onChange={(sliderV) => handleSliderChange("minimumStock", sliderV)}
-                    />
-                </div>
-            </div>
-            <div className="mt-4 flex items-center">
-                <span className="text-xl font-bold text-gray-800">Status: </span>
-                <span className={`font-medium ml-2 ${
-                    Status === "good" ? "text-green-600" :
-                    Status === "warning" ? "text-yellow-600" :
-                    "text-red-600"
-                }`}>{Status}
-                </span>
-            </div>
-        </div>
-    );
+  return (
+    <div className="bg-white shadow-sm border rounded-xl overflow-hidden">
+      <div className="w-full h-64 bg-gray-300 flex items-center justify-center text-white text-xl rounded-t-xl">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      <div className="flex justify-between items-center px-4 pt-4">
+        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+        <button className="px-4 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
+          Manage
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 px-4 py-4">
+        <ProductCardSlider
+          label="baseStock"
+          value={sliderValue.baseStock}
+          onChange={(v) => handleSliderChange("baseStock", v)}
+        />
+
+        <ProductCardSlider
+          label="minimumStock"
+          value={sliderValue.minimumStock}
+          max={1000}
+          onChange={(v) => handleSliderChange("minimumStock", v)}
+        />
+
+        <ProductCardSlider
+          label="dailySales"
+          value={sliderValue.dailySales}
+          onChange={(v) => handleSliderChange("dailySales", v)}
+        />
+
+        <ProductCardSlider
+          label="supplyTimeDays"
+          value={sliderValue.supplyTimeDays}
+          max={60}
+          onChange={(v) => handleSliderChange("supplyTimeDays", v)}
+        />
+      </div>
+
+      <div className="px-4 pb-4">
+        <span className="font-semibold text-gray-800">Status: </span>
+        <span
+          className={
+            Status === "good"
+              ? "text-green-600 font-medium"
+              : Status === "warning"
+              ? "text-yellow-600 font-medium"
+              : "text-red-600 font-medium"
+          }
+        >
+          {Status}
+        </span>
+      </div>
+    </div>
+  );
 }
