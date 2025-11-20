@@ -12,7 +12,6 @@ export default function SuppliersPage() {
   const [editingSupplier, setEditingSupplier] = useState<SuppliersTypes | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // --- Fetch suppliers ---
   const fetchSuppliers = async () => {
     try {
       setError(null);
@@ -32,7 +31,6 @@ export default function SuppliersPage() {
     fetchSuppliers();
   }, []);
 
-  // --- Delete ---
   const handleDelete = async (id: string) => {
     if (!confirm("Er du sikker på at du vil slette denne leverandøren?")) return;
 
@@ -46,7 +44,6 @@ export default function SuppliersPage() {
     }
   };
 
-  // --- Save (new or edit) ---
   const handleSave = async (data: SuppliersTypes) => {
     try {
       const method = editingSupplier ? "PUT" : "POST";
@@ -70,25 +67,18 @@ export default function SuppliersPage() {
       alert("Kunne ikke lagre leverandør.");
     }
   };
-
-  // --- UI ---
   return (
     <div className="flex bg-gray-50 min-h-screen">
       <Sidebar />
 
       <main className="flex-1 p-8">
-
-        {/* Loading */}
         {loading && (
           <p className="text-gray-500">Laster leverandører...</p>
         )}
-
-        {/* Error */}
         {!loading && error && (
           <p className="text-red-600">{error}</p>
         )}
 
-        {/* Content */}
         {!loading && !error && (
           <>
             <div className="flex justify-between items-center mb-6">
