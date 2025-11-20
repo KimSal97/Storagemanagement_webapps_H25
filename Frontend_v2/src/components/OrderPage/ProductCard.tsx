@@ -1,11 +1,17 @@
-// src/components/OrderPage/ProductCard.tsx
 "use client";
 
 import React from "react";
 import ProductCardSlider from "./ProductCardSlider";
 import type { OrderProduct } from "./OrderTypes";
 
+type CartItem = {
+  productId: string;
+  quantity: number;
+  calculatedQuantity: number;
+};
+
 export default function ProductCard({
+  id,
   title,
   price,
   image = "/src/app/shared/missing.png",
@@ -14,7 +20,9 @@ export default function ProductCard({
   dailySales,
   supplyTimeDays = 7,
   Status,
-}: OrderProduct) {
+  onAddToCart,
+}: OrderProduct & { onAddToCart: (item: CartItem) => void }) {
+  
   const [sliderValue, setSliders] = React.useState({
     baseStock,
     minimumStock,
@@ -32,6 +40,17 @@ export default function ProductCard({
     }));
   };
 
+  const handleAdd = () => {
+    const quantity = sliderValue.minimumStock - sliderValue.baseStock;
+    const calculatedQuantity = sliderValue.dailySales * sliderValue.supplyTimeDays;
+
+    onAddToCart({
+      productId: id,
+      quantity: Math.max(quantity, 0),
+      calculatedQuantity,
+    });
+  };
+
   return (
     <div className="bg-white shadow-sm border rounded-xl overflow-hidden">
       <div className="w-full h-64 bg-gray-300 flex items-center justify-center text-white text-xl rounded-t-xl">
@@ -44,8 +63,12 @@ export default function ProductCard({
 
       <div className="flex justify-between items-center px-4 pt-4">
         <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-        <button className="px-4 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
-          Manage
+
+        <button
+          onClick={handleAdd}
+          className="px-4 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+        >
+          Legg til
         </button>
       </div>
 
