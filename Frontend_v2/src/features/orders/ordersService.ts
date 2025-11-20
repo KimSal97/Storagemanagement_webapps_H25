@@ -1,25 +1,40 @@
-import { createId } from "@/lib/id";
 import { ordersRepository } from "./ordersRepository";
+import { createId } from "@/lib/id";
 
 export const ordersService = {
-  async createOrder(data) {
+  async create(items: { productId: string; quantity: number; calculatedQuantity: number }[]) {
     const orderId = createId();
-    const created = {
-      id: orderId,
-      createdAt: new Date().toISOString(),
-      status: "pending",
-    };
 
-    const items = data.items.map((i) => ({
-      id: createId(),
-      orderId,
-      productId: i.productId,
-      quantity: i.quantity,
-      calculatedQuantity: i.calculatedQuantity,
-    }));
+    await ordersRepository.createOrder(orderId);
 
-    await ordersRepository.createOrder(created, items);
+    for (const item of items) {
+      await ordersRepository.addOrderItem({
+        id: createId(),
+        orderId,
+        productId: item.productId,
+        quantity: item.quantity,
+        calculatedQuantity: item.calculatedQuantity,
+      });
+    }
 
-    return { ok: true, orderId };
+    return ordersRepository.getOrder(orderId);
+  },
+
+  async get(id: string) {
+    const order = await ordersRepository.getOrder(id);
+    if (!order) throw new Error("Order not found");
+    return order;
+  },
+
+  async list() {
+    return ordersRepository.listOrders();
+  },
+
+  async update(id: string, data: { status?: string }) {
+    return ordersRepository.updateOrder(id, data);
+  },
+
+  async remove(id: string) {
+    return ordersRepository.deleteOrder(id);
   },
 };
