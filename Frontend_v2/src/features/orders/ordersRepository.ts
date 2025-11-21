@@ -1,28 +1,19 @@
 import { db } from "@/db";
-import { orders, orderItems } from "@/db/schema/orders-schema";
+import { orders, orderItems, type NewOrder, type NewOrderItem, type OrderWithItems } from "@/db/schema/orders-schema";
 import { eq } from "drizzle-orm";
 
 export const ordersRepository = {
-  async createOrder(id: string, status: string = "pending") {
-    await db.insert(orders).values({
-      id,
-      status,
-      createdAt: new Date().toISOString(),
-    });
-    return this.getOrder(id);
+  async createOrder(order: NewOrder) {
+    await db.insert(orders).values(order);
+    return this.getOrder(order.id);
   },
 
-  async addOrderItem(item: {
-    id: string;
-    orderId: string;
-    productId: string;
-    quantity: number;
-    calculatedQuantity: number;
-  }) {
-    await db.insert(orderItems).values(item);
+  async addOrderItems(items: NewOrderItem[]) {
+    if (items.length === 0) return;
+    await db.insert(orderItems).values(items);
   },
 
-  async getOrder(id: string) {
+  async getOrder(id: string): Promise<OrderWithItems | null> {
     const [order] = await db.select().from(orders).where(eq(orders.id, id));
     if (!order) return null;
 
@@ -35,11 +26,18 @@ export const ordersRepository = {
   },
 
   async listOrders() {
-    return await db.select().from(orders);
+    return db.select().from(orders);
   },
 
-  async updateOrder(id: string, data: Partial<{ status: string }>) {
-    await db.update(orders).set(data).where(eq(orders.id, id));
+  async updateOrder(
+    id: string,
+    data: Partial<{ status: string; expected: string | null }>
+  ) {
+    await db
+      .update(orders)
+      .set(data)
+      .where(eq(orders.id, id));
+
     return this.getOrder(id);
   },
 

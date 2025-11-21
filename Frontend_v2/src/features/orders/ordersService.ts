@@ -1,23 +1,59 @@
 import { ordersRepository } from "./ordersRepository";
 import { createId } from "@/lib/id";
 
+type CreateOrderItemInput = {
+  productId: string;
+  orderedQty: number;
+  unitCost: number;
+};
+
+type CreateOrderInput = {
+  supplierId: string;
+  userId: string;
+  expected?: string | null;
+  items: CreateOrderItemInput[];
+};
+
 export const ordersService = {
-  async create(items: { productId: string; quantity: number; calculatedQuantity: number }[]) {
-    const orderId = createId();
+  async create(data: CreateOrderInput) {
+    const id = createId();
+    const created = new Date().toISOString();
 
-    await ordersRepository.createOrder(orderId);
+    const totalCost = data.items.reduce(
+      (sum, item) => sum + item.orderedQty * item.unitCost,
+      0
+    );
 
-    for (const item of items) {
-      await ordersRepository.addOrderItem({
-        id: createId(),
-        orderId,
-        productId: item.productId,
-        quantity: item.quantity,
-        calculatedQuantity: item.calculatedQuantity,
-      });
-    }
+    // lag selve ordren
+    await ordersRepository.createOrder({
+      id,
+      supplierId: data.supplierId,
+      userId: data.userId,
+      expected: data.expected ?? null,
+      created,
+      status: "pending",
+      totalCost,
+    });
 
-    return ordersRepository.getOrder(orderId);
+    // lag order_items
+    const itemsToInsert = data.items.map((item) => ({
+      id: createId(),
+      orderId: id,
+      productId: item.productId,
+      orderedQty: item.orderedQty,
+      unitCost: item.unitCost,
+    }));
+
+    await ordersRepository.addOrderItems(itemsToInsert);
+
+    // returner ordren med items
+    const order = await ordersRepository.getOrder(id);
+    if (!order) throw new Error("Order not found after creation");
+    return order;
+  },
+
+  async list() {
+    return ordersRepository.listOrders();
   },
 
   async get(id: string) {
@@ -26,12 +62,10 @@ export const ordersService = {
     return order;
   },
 
-  async list() {
-    return ordersRepository.listOrders();
-  },
-
-  async update(id: string, data: { status?: string }) {
-    return ordersRepository.updateOrder(id, data);
+  async update(id: string, data: { status?: string; expected?: string | null }) {
+    const order = await ordersRepository.updateOrder(id, data);
+    if (!order) throw new Error("Order not found");
+    return order;
   },
 
   async remove(id: string) {
