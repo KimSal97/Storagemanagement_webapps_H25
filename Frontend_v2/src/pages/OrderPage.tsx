@@ -39,7 +39,6 @@ export default function OrderPage() {
       return [...prev, item];
     });
   };
-
   const handleRemoveFromCart = (productId: string) => {
     setCart((prev) => prev.filter((i) => i.productId !== productId));
   };
@@ -71,16 +70,11 @@ export default function OrderPage() {
       alert("Kunne ikke sende bestilling.");
     }
   };
-
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-
-      {/* MAIN CONTENT */}
       <div className="flex-1 p-6 relative">
         <h1 className="text-3xl font-bold text-gray-800 mb-10">Ny Bestilling</h1>
-
-        {/* CART BOX */}
         <CartBox
           cart={cart}
           products={products}
