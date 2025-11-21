@@ -47,7 +47,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-white shadow-md flex flex-col min-h-screen">
+    <aside className="w-64 bg-white shadow-md flex flex-col h-screen sticky top-0">
       <div className="p-4 border-b">
         <h2 className="text-xl font-bold text-blue-600">StorageManagement</h2>
       </div>

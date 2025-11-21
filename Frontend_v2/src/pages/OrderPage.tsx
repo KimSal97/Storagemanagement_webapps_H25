@@ -43,6 +43,26 @@ export default function OrderPage() {
     setCart((prev) => prev.filter((i) => i.productId !== productId));
   };
 
+  const handleIncrease = (productId: string) => {
+    setCart((prev) =>
+      prev.map((i) =>
+        i.productId === productId
+          ? { ...i, orderedQty: i.orderedQty + 1 }
+          : i
+      )
+    );
+  };
+
+  const handleDecrease = (productId: string) => {
+    setCart((prev) =>
+      prev.map((i) =>
+        i.productId === productId
+          ? { ...i, orderedQty: Math.max(1, i.orderedQty - 1) }
+          : i
+      )
+    );
+  };
+
   const handleSubmitOrder = async () => {
     if (cart.length === 0) {
       alert("Handlekurven er tom.");
@@ -80,8 +100,9 @@ export default function OrderPage() {
           products={products}
           onRemove={handleRemoveFromCart}
           onSubmit={handleSubmitOrder}
+          onIncrease={handleIncrease}
+          onDecrease={handleDecrease}
         />
-
         <div className="mr-96">
           <ProductsGrid products={products} onAddToCart={handleAddToCart} />
         </div>
