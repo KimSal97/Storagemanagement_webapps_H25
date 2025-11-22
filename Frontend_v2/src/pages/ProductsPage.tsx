@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "@/components/Dashboard/Sidebar";
 import ProductTable from "@/components/Products/ProductTable";
 import type { Product } from "@/components/Products/ProductTypes";
-import AddEditProductModal from "@/components/Products/AddEditProductModal";
+import AddEditProductModal from "@/components/Products/ProductForm/AddEditProductModal";
 import DeleteConfirmModal from "@/components/Products/DeleteConfirmModal";
 
 export default function ProductsPage() {
