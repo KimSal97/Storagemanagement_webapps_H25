@@ -7,68 +7,92 @@ type CreateOrderItemInput = {
   unitCost: number;
 };
 
-type CreateOrderInput = {
-  supplierId: string;
-  userId: string;
-  expected?: string | null;
-  items: CreateOrderItemInput[];
-};
-
 export const ordersService = {
-  async create(data: CreateOrderInput) {
-    const id = createId();
-    const created = new Date().toISOString();
+  async create(items: CreateOrderItemInput[]) {
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      throw new Error("Order must contain at least one item");
+    }
 
-    const totalCost = data.items.reduce(
-      (sum, item) => sum + item.orderedQty * item.unitCost,
-      0
-    );
+    const orderId = createId();
+    const order = await ordersRepository.createOrder(orderId, "pending");
 
-    // lag selve ordren
-    await ordersRepository.createOrder({
-      id,
-      supplierId: data.supplierId,
-      userId: data.userId,
-      expected: data.expected ?? null,
-      created,
-      status: "pending",
-      totalCost,
-    });
+    for (const item of items) {
+      if (!item.productId || item.orderedQty <= 0) continue;
 
-    // lag order_items
-    const itemsToInsert = data.items.map((item) => ({
-      id: createId(),
-      orderId: id,
-      productId: item.productId,
-      orderedQty: item.orderedQty,
-      unitCost: item.unitCost,
-    }));
+      await ordersRepository.addOrderItem({
+        id: createId(),
+        orderId,
+        productId: item.productId,
+        quantity: item.orderedQty,
+        calculatedQuantity: item.unitCost,
+      });
+    }
 
-    await ordersRepository.addOrderItems(itemsToInsert);
+    const rawItems = await ordersRepository.getOrderItems(orderId);
 
-    // returner ordren med items
-    const order = await ordersRepository.getOrder(id);
-    if (!order) throw new Error("Order not found after creation");
-    return order;
+    return {
+      id: order.id,
+      status: order.status,
+      createdAt: order.createdAt,
+      date: order.createdAt,
+      items: rawItems.map((it) => ({
+        id: it.id,
+        productId: it.productId,
+        orderedQty: it.quantity,
+        unitCost: it.calculatedQuantity,
+      })),
+    };
   },
 
   async list() {
-    return ordersRepository.listOrders();
+    const orders = await ordersRepository.listOrders();
+
+    return orders.map((o) => ({
+      id: o.id,
+      status: o.status,
+      createdAt: o.createdAt,
+      date: o.createdAt,
+    }));
   },
 
   async get(id: string) {
     const order = await ordersRepository.getOrder(id);
-    if (!order) throw new Error("Order not found");
-    return order;
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    const rawItems = await ordersRepository.getOrderItems(id);
+
+    return {
+      id: order.id,
+      status: order.status,
+      createdAt: order.createdAt,
+      date: order.createdAt,
+      items: rawItems.map((it) => ({
+        id: it.id,
+        productId: it.productId,
+        orderedQty: it.quantity,
+        unitCost: it.calculatedQuantity,
+      })),
+    };
   },
 
-  async update(id: string, data: { status?: string; expected?: string | null }) {
-    const order = await ordersRepository.updateOrder(id, data);
-    if (!order) throw new Error("Order not found");
-    return order;
+  async update(id: string, data: { status?: string }) {
+    const updated = await ordersRepository.updateOrder(id, data);
+    if (!updated) {
+      throw new Error("Order not found");
+    }
+
+    return {
+      id: updated.id,
+      status: updated.status,
+      createdAt: updated.createdAt,
+      date: updated.createdAt,
+    };
   },
 
   async remove(id: string) {
-    return ordersRepository.deleteOrder(id);
+    await ordersRepository.deleteOrder(id);
+    return { success: true };
   },
 };

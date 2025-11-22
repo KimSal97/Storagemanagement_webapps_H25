@@ -1,7 +1,7 @@
 import { route } from "rwsdk/router";
 import { ordersController } from "./ordersController";
 
-export const orderRoutes = [
+export const ordersRoutes = [
   route("/api/orders", async ({ request }) => {
     if (request.method === "GET") return ordersController.list(request);
     if (request.method === "POST") return ordersController.create(request);
