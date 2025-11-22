@@ -181,5 +181,5 @@ export async function seedData() {
 
   console.log("Products seeded");
 
-  console.log("Database seeded successfully — fresh every run!");
+  console.log("Database seeded successfully");
 }

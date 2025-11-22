@@ -23,6 +23,8 @@ import SuppliersPage from "@/components/Suppliers/SuppliersPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import ProductsPage from "./pages/ProductsPage";
+import { ordersRoutes } from "./features/orders/ordersRoutes";
+
 
 // App context 
 export interface Env {
@@ -51,6 +53,7 @@ export default defineApp([
   ...authRoutes,
   ...suppliersRoutes,
   ...productsRoutes,
+  ...ordersRoutes,
 
   // Seeder for testdata
   route("/api/seed", async () => {

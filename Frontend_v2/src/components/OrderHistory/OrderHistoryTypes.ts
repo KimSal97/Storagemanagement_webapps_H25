@@ -1,15 +1,17 @@
-export type OrderItem = {
-  name: string;
-  quantity: number;
-};
+export type OrderStatus = "pending" | "completed" | "cancelled";
 
-export type OrderStatus = "Behandlet" | "Sendt" | "Fullført" | "Kansellert";
+export type OrderItem = {
+  id: string;
+  orderId: string;
+  productId: string;
+  orderedQty: number;
+  unitCost: number;
+};
 
 export type OrderHistoryTypes = {
   id: string;
-  date: string;
-  supplier: string;
-  total: number;
+  createdAt: string;   
+  totalCost: number;     
   status: OrderStatus;
-  items?: OrderItem[]; // 👈 lagt til
+  items: OrderItem[];     
 };

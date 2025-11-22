@@ -1,18 +1,20 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
 
 export const orders = sqliteTable("orders", {
   id: text("id").primaryKey(),
-  createdAt: text("created_at"),
-  status: text("status").default("pending"),
+  createdAt: text("created_at").notNull(),
+  status: text("status").notNull().default("pending"),
+  totalCost: real("total_cost").notNull(),
 });
 
 export const orderItems = sqliteTable("order_items", {
   id: text("id").primaryKey(),
   orderId: text("order_id").notNull(),
   productId: text("product_id").notNull(),
-  quantity: integer("quantity").notNull(),
-  calculatedQuantity: integer("calculated_quantity").notNull(),
+  orderedQty: integer("ordered_qty").notNull(),
+  unitCost: real("unit_cost").notNull(),
 });
+
 
 export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;

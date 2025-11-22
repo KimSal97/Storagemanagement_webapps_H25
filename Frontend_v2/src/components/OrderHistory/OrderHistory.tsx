@@ -40,7 +40,6 @@ export default function OrderHistory() {
       ? sortedOrders.filter((o) => filterStatus.includes(o.status))
       : sortedOrders;
 
-  // Når en ordre klikkes:
   const handleOrderClick = (order: OrderHistoryTypes) => {
     setSelectedOrder(order);
     setIsModalOpen(true);
@@ -66,7 +65,6 @@ export default function OrderHistory() {
 
         <OrderTable orders={filteredOrders} onOrderClick={handleOrderClick} />
 
-        {/* Modal */}
         {isModalOpen && selectedOrder && (
           <OrderDetailsModal
             order={selectedOrder}

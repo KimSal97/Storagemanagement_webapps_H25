@@ -1,50 +1,56 @@
 import { db } from "@/db";
-import {
-  orders,
-  orderItems,
-  type Order,
-  type OrderItem,
-  type NewOrderItem,
-} from "@/db/schema/orders-schema";
+import { orders, orderItems } from "@/db/schema/orders-schema";
 import { eq } from "drizzle-orm";
 
 export const ordersRepository = {
-  async createOrder(id: string, status: string = "pending"): Promise<Order> {
+  async create(orderId: string, totalCost: number) {
     await db.insert(orders).values({
-      id,
-      status,
+      id: orderId,
       createdAt: new Date().toISOString(),
+      status: "pending",
+      totalCost,
     });
-
-    return this.getOrder(id) as Promise<Order>;
   },
 
-  async addOrderItem(item: NewOrderItem): Promise<void> {
+  async addItem(item: {
+    id: string;
+    orderId: string;
+    productId: string;
+    orderedQty: number;
+    unitCost: number;
+  }) {
     await db.insert(orderItems).values(item);
   },
 
-  async getOrder(id: string): Promise<Order | null> {
-    const rows = await db.select().from(orders).where(eq(orders.id, id));
-    return rows[0] ?? null;
+  async findAll() {
+    const allOrders = await db.select().from(orders);
+    const allItems = await db.select().from(orderItems);
+
+    return allOrders.map((o) => ({
+      ...o,
+      items: allItems.filter((i) => i.orderId === o.id),
+    }));
   },
 
-  async getOrderItems(orderId: string): Promise<OrderItem[]> {
-    return db.select().from(orderItems).where(eq(orderItems.orderId, orderId));
+  async findById(id: string) {
+    const [order] = await db.select().from(orders).where(eq(orders.id, id));
+    if (!order) return null;
+
+    const items = await db
+      .select()
+      .from(orderItems)
+      .where(eq(orderItems.orderId, id));
+
+    return { ...order, items };
   },
 
-  async listOrders(): Promise<Order[]> {
-    return db.select().from(orders);
-  },
-
-  async updateOrder(
-    id: string,
-    data: Partial<{ status: string }>
-  ): Promise<Order | null> {
+  async update(id: string, data: { status?: string }) {
     await db.update(orders).set(data).where(eq(orders.id, id));
-    return this.getOrder(id);
+
+    return this.findById(id);
   },
 
-  async deleteOrder(id: string): Promise<void> {
+  async delete(id: string) {
     await db.delete(orderItems).where(eq(orderItems.orderId, id));
     await db.delete(orders).where(eq(orders.id, id));
   },
