@@ -1,41 +1,46 @@
-"use client";
 import { OrderHistoryTypes } from "./OrderHistoryTypes";
 
-type Props = {
+export default function OrderDetailsModal({
+  order,
+  onClose,
+}: {
   order: OrderHistoryTypes;
   onClose: () => void;
-};
-
-export default function OrderDetailsModal({ order, onClose }: Props) {
+}) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-        >
-          ✕
-        </button>
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-[450px]">
+        <h2 className="text-xl font-bold mb-3">Ordredetaljer</h2>
 
-        <h2 className="text-xl font-semibold mb-4">Detaljer for ordre #{order.id}</h2>
+        <p>
+          <strong>Order ID:</strong> {order.id}
+        </p>
+        <p>
+          <strong>Dato:</strong>{" "}
+          {new Date(order.createdAt).toLocaleString("no-NO")}
+        </p>
+        <p>
+          <strong>Status:</strong> {order.status}
+        </p>
+        <p>
+          <strong>Total:</strong> {order.totalCost} kr
+        </p>
 
-        <div className="space-y-2">
-          <p><strong>Dato:</strong> {order.date}</p>
-          <p><strong>Status:</strong> {order.status}</p>
-          <p><strong>Leverandør:</strong> {order.supplier}</p>
-          <p><strong>Totalt beløp:</strong> {order.total} kr</p>
-        </div>
-
-        <hr className="my-4" />
-
-        <h3 className="font-medium mb-2">Produkter:</h3>
-        <ul className="list-disc list-inside text-sm text-gray-700">
-          {order.items?.map((item, idx) => (
-            <li key={idx}>
-              {item.name} – {item.quantity} stk
+        <h3 className="font-semibold mt-4 mb-2">Produkter:</h3>
+        <ul className="list-disc pl-6">
+          {order.items.map((item) => (
+            <li key={item.id}>
+              {item.productId} – {item.orderedQty} stk ({item.unitCost} kr/stk)
             </li>
           ))}
         </ul>
+
+        <button
+          className="mt-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          onClick={onClose}
+        >
+          Lukk
+        </button>
       </div>
     </div>
   );
