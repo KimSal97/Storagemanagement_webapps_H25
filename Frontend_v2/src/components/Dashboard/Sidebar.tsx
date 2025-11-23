@@ -8,7 +8,8 @@ import {
   Star,
   Settings,
   LogOut,
-  ShoppingCart
+  ShoppingCart,
+  DollarSign
 } from "lucide-react";
 
 import { navigate } from "rwsdk/client";
@@ -26,6 +27,7 @@ export default function Sidebar() {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
     { id: "order", label: "Ny Bestilling", icon: ShoppingCart, href: "/order" },
+    { id: "sales", label: "Registrer salg", icon: DollarSign, href: "/sales" }, // 👈 NY
     { id: "products", label: "Produkter", icon: Package, href: "/products" },
     { id: "orderHistory", label: "Bestillingshistorikk", icon: Clock, href: "/order-history" },
     { id: "statistics", label: "Statistikk", icon: BarChart3, href: "/statistics" },
