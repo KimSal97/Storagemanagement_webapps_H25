@@ -105,6 +105,5 @@ export default defineApp([
     route("/suppliers", SuppliersPage),
     route("/products", ProductsPage),
     route("/sales", SalesPage),
-  
   ]),
 ]);

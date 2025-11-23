@@ -3,6 +3,7 @@ export type Sale = {
   productId: string;
   quantity: number;
   soldAt: string;
+  createdBy: string;
 };
 
 export type SaleWithProduct = Sale & {
