@@ -1,25 +1,36 @@
-import React from "react";
+import { OrderStatus } from "./OrderHistoryTypes";
 
-export default function OrderFilter({ filterStatus, setFilterStatus }: any) {
-  const statuses = ["Mottatt", "Underveis", "Kansellert"];
+export default function OrderFilter({
+  filterStatus,
+  setFilterStatus,
+}: {
+  filterStatus: OrderStatus[];
+  setFilterStatus: (s: OrderStatus[]) => void;
+}) {
+  const statuses: OrderStatus[] = ["pending", "completed", "cancelled"];
 
-  const toggleStatus = (status: string) => {
-    if (filterStatus.includes(status))
-      setFilterStatus(filterStatus.filter((s: string) => s !== status));
-    else setFilterStatus([...filterStatus, status]);
+  const toggle = (status: OrderStatus) => {
+    if (filterStatus.includes(status)) {
+      setFilterStatus(filterStatus.filter((s) => s !== status));
+    } else {
+      setFilterStatus([...filterStatus, status]);
+    }
   };
 
   return (
-    <div className="flex gap-3">
-      {statuses.map((status) => (
-        <label key={status} className="flex items-center gap-1 text-sm">
-          <input
-            type="checkbox"
-            checked={filterStatus.includes(status)}
-            onChange={() => toggleStatus(status)}
-          />
-          {status}
-        </label>
+    <div className="flex gap-2">
+      {statuses.map((s) => (
+        <button
+          key={s}
+          onClick={() => toggle(s)}
+          className={`px-3 py-1 rounded-lg border text-sm ${
+            filterStatus.includes(s)
+              ? "bg-blue-600 text-white"
+              : "bg-white text-gray-600"
+          }`}
+        >
+          {s}
+        </button>
       ))}
     </div>
   );
