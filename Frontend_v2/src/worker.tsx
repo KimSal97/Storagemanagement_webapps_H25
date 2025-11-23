@@ -13,6 +13,9 @@ import { suppliers } from "@/db/schema/suppliers-schema";
 import { authRoutes } from "@/features/auth/authRoutes";
 import { suppliersRoutes } from "@/features/suppliers/suppliersRoutes";
 import { productsRoutes } from "@/features/products/productsRoutes";
+import { ordersRoutes } from "./features/orders/ordersRoutes";
+import { salesRoutes } from "./features/sales/salesRoutes";
+
 
 import RegisterPage from "@/pages/Registerpage";
 import OrderPage from "@/pages/OrderPage";
@@ -23,7 +26,8 @@ import SuppliersPage from "@/components/Suppliers/SuppliersPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import ProductsPage from "./pages/ProductsPage";
-import { ordersRoutes } from "./features/orders/ordersRoutes";
+import SalesPage from "@/components/Sales/SalesPage";
+
 
 
 // App context 
@@ -54,6 +58,7 @@ export default defineApp([
   ...suppliersRoutes,
   ...productsRoutes,
   ...ordersRoutes,
+  ...salesRoutes,
 
   // Seeder for testdata
   route("/api/seed", async () => {
@@ -98,6 +103,8 @@ export default defineApp([
     route("/order", OrderPage),
     route("/order-history", OrderHistory),
     route("/suppliers", SuppliersPage),
-    route("/products", ProductsPage)
+    route("/products", ProductsPage),
+    route("/sales", SalesPage),
+  
   ]),
 ]);
