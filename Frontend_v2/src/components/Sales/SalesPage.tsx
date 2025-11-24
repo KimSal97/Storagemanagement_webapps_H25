@@ -15,7 +15,6 @@ export default function SalesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Hent produkter + alle sales (du kan senere bytte til /api/sales/today)
   useEffect(() => {
     const loadData = async () => {
       try {
