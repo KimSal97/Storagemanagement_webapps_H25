@@ -40,6 +40,15 @@ export default function ProductForm({ form, onChange }: Props) {
         />
       </div>
 
+      <div className="grid grid-cols-2 gap-4">
+        <ProductFormField
+          label="Maksimum beholdning"
+          type="number"
+          value={form.maxStock}
+          onChange={(v) => onChange("maxStock", Number(v))} // 👈 NY
+        />
+      </div>
+
       <ProductFormField
         label="Pris (kr)"
         type="number"

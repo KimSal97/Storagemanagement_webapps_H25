@@ -20,6 +20,7 @@ export default function AddEditProductModal({
       category: "",
       stock: 0,
       minStock: 0,
+      maxStock: 0,
       price: 0,
       supplier: "",
       location: "",

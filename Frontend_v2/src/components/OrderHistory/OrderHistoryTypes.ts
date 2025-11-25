@@ -10,7 +10,7 @@ export type OrderItem = {
 
 export type OrderHistoryTypes = {
   id: string;
-  createdAt: string;     // backend ISO timestamp
+  createdAt: string;     
   status: OrderStatus;
   totalCost: number;
   items: OrderItem[];

@@ -1,4 +1,5 @@
 "use client";
+import { TriangleAlert } from "lucide-react";
 
 import {
   LayoutDashboard,
@@ -25,15 +26,18 @@ export default function Sidebar() {
   }, []);
 
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
-    { id: "order", label: "Ny Bestilling", icon: ShoppingCart, href: "/order" },
-    { id: "sales", label: "Registrer salg", icon: DollarSign, href: "/sales" }, // 👈 NY
-    { id: "products", label: "Produkter", icon: Package, href: "/products" },
-    { id: "orderHistory", label: "Bestillingshistorikk", icon: Clock, href: "/order-history" },
-    { id: "statistics", label: "Statistikk", icon: BarChart3, href: "/statistics" },
-    { id: "suppliers", label: "Leverandører", icon: Star, href: "/suppliers" },
-    { id: "settings", label: "Innstillinger", icon: Settings, href: "/settings" },
-  ];
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
+  { id: "order", label: "Ny Bestilling", icon: ShoppingCart, href: "/order" },
+  { id: "reorder", label: "Reorder", icon: TriangleAlert, href: "/reorder" },  // 👈 NY
+  { id: "sales", label: "Registrer salg", icon: DollarSign, href: "/sales" },
+  { id: "products", label: "Produkter", icon: Package, href: "/products" },
+  { id: "orderHistory", label: "Bestillingshistorikk", icon: Clock, href: "/order-history" },
+  { id: "statistics", label: "Statistikk", icon: BarChart3, href: "/statistics" },
+  { id: "suppliers", label: "Leverandører", icon: Star, href: "/suppliers" },
+  { id: "settings", label: "Innstillinger", icon: Settings, href: "/settings" },
+];
+
+
 
   const handleMenuClick = (href: string) => {
     navigate(href);
@@ -62,11 +66,10 @@ export default function Sidebar() {
             <button
               key={id}
               onClick={() => handleMenuClick(href)}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition cursor-pointer ${
-                active
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition cursor-pointer ${active
                   ? "bg-blue-100 text-blue-600 font-semibold"
                   : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
-              }`}
+                }`}
             >
               <Icon size={18} />
               <span className="text-sm">{label}</span>
