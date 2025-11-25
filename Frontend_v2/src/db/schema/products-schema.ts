@@ -7,6 +7,7 @@ export const products = sqliteTable("products", {
   category: text("category").notNull(),
   stock: integer("stock"),
   minStock: integer("min_stock"),
+  maxStock: integer("max_stock"),
   price: real("price"),
   supplier: text("supplier").notNull(),
   location: text("location").notNull(),

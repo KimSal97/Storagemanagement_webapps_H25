@@ -15,6 +15,7 @@ import { suppliersRoutes } from "@/features/suppliers/suppliersRoutes";
 import { productsRoutes } from "@/features/products/productsRoutes";
 import { ordersRoutes } from "./features/orders/ordersRoutes";
 import { salesRoutes } from "./features/sales/salesRoutes";
+import { reorderRoutes } from "./features/reorder/reorderRoutes";
 
 
 import RegisterPage from "@/pages/Registerpage";
@@ -23,6 +24,7 @@ import LoginPage from "@/pages/LoginPage";
 import Dashboard from "@/components/Dashboard/Dashboard";
 import OrderHistory from "@/components/OrderHistory/OrderHistory";
 import SuppliersPage from "@/components/Suppliers/SuppliersPage";
+import ReorderPage from "@/components/Reorder/ReorderPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import ProductsPage from "./pages/ProductsPage";
@@ -58,6 +60,7 @@ export default defineApp([
   ...suppliersRoutes,
   ...productsRoutes,
   ...ordersRoutes,
+  ...reorderRoutes,
   ...salesRoutes,
 
   // Seeder for testdata
@@ -101,6 +104,7 @@ export default defineApp([
     route("/reset-password", ResetPasswordPage),
     route("/dashboard", Dashboard),
     route("/order", OrderPage),
+    route("/reorder", ReorderPage), 
     route("/order-history", OrderHistory),
     route("/suppliers", SuppliersPage),
     route("/products", ProductsPage),

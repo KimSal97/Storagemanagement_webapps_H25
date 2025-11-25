@@ -4,8 +4,9 @@ export type Product = {
   category: string;
   stock: number;
   minStock: number;
+  maxStock: number;
   price: number;
   supplier: string;
   location: string;
-  image: string; 
+  image: string;
 };
