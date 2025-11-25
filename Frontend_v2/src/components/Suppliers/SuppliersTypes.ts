@@ -6,5 +6,5 @@ export type SuppliersTypes = {
   email: string;
   address?: string;
   products?: string;
-  status?: "Aktiv" | "Inaktiv";
+  status: "Aktiv" | "Inaktiv";
 };

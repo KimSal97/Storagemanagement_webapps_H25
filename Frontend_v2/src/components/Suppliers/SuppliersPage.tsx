@@ -97,7 +97,7 @@ export default function SuppliersPage() {
 
             {showForm && (
               <AddSupplierForm
-                supplier={editingSupplier}
+                initialData={editingSupplier}
                 onCancel={() => setShowForm(false)}
                 onSave={handleSave}
               />

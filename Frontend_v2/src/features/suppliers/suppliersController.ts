@@ -4,11 +4,13 @@ import type { suppliersTypes } from "./suppliersTypes";
 export const suppliersController = {
   async create(request: Request) {
     try {
-      const data = (await request.json()) as suppliersTypes 
+      const data = (await request.json()) as suppliersTypes;
       await suppliersService.createSupplier(data);
       return Response.json({ success: true });
     } catch (err: any) {
-      return new Response(err.message || "Feil ved oppretting av leverandør", { status: 400 });
+      return new Response(err.message || "Feil ved oppretting av leverandør", {
+        status: 400,
+      });
     }
   },
 
@@ -26,17 +28,21 @@ export const suppliersController = {
       const supplier = await suppliersService.getSupplierById(id);
       return Response.json(supplier);
     } catch (err: any) {
-      return new Response(err.message || "Kunne ikke hente leverandør", { status: 404 });
+      return new Response(err.message || "Kunne ikke hente leverandør", {
+        status: 404,
+      });
     }
   },
 
   async update(id: string, request: Request) {
     try {
       const data = (await request.json()) as Partial<suppliersTypes>;
-      await suppliersService.updateSupplier(id, data);
-      return Response.json({ success: true });
+      const updated = await suppliersService.updateSupplier(id, data);
+      return Response.json(updated);
     } catch (err: any) {
-      return new Response(err.message || "Kunne ikke oppdatere leverandør", { status: 400 });
+      return new Response(err.message || "Kunne ikke oppdatere leverandør", {
+        status: 400,
+      });
     }
   },
 
@@ -45,7 +51,9 @@ export const suppliersController = {
       await suppliersService.deleteSupplier(id);
       return Response.json({ success: true });
     } catch (err: any) {
-      return new Response(err.message || "Kunne ikke slette leverandør", { status: 400 });
+      return new Response(err.message || "Kunne ikke slette leverandør", {
+        status: 400,
+      });
     }
   },
 };

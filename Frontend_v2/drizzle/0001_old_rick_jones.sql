@@ -1,0 +1,1 @@
+ALTER TABLE `suppliers` ADD `status` text DEFAULT 'Aktiv' NOT NULL;
