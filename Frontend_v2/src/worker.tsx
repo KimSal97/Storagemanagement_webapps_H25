@@ -16,6 +16,7 @@ import { productsRoutes } from "@/features/products/productsRoutes";
 import { ordersRoutes } from "./features/orders/ordersRoutes";
 import { salesRoutes } from "./features/sales/salesRoutes";
 import { reorderRoutes } from "./features/reorder/reorderRoutes";
+import { statisticsRoutes } from "./features/statistics/statisticsRoutes";
 
 
 import RegisterPage from "@/pages/Registerpage";
@@ -29,8 +30,7 @@ import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import ProductsPage from "./pages/ProductsPage";
 import SalesPage from "@/components/Sales/SalesPage";
-
-
+import StatisticsPage from "./components/Statistics/StatisticsPage";
 
 // App context 
 export interface Env {
@@ -62,6 +62,7 @@ export default defineApp([
   ...ordersRoutes,
   ...reorderRoutes,
   ...salesRoutes,
+  ...statisticsRoutes,
 
   // Seeder for testdata
   route("/api/seed", async () => {
@@ -109,5 +110,6 @@ export default defineApp([
     route("/suppliers", SuppliersPage),
     route("/products", ProductsPage),
     route("/sales", SalesPage),
+    route("/statistics", StatisticsPage)
   ]),
 ]);

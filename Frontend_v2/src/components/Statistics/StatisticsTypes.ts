@@ -4,6 +4,7 @@ export type SalesData = {
 };
 
 export type OrderStats = {
-  month: string;
-  orders: number;
+  date: string;
+  count: number;
+  totalCost: number;
 };
