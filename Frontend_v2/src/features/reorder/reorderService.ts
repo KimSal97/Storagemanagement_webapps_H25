@@ -5,9 +5,7 @@ export class ReorderService {
   private repo = new ReorderRepository();
 
   async getSuggestions() {
-    const LOOKBACK_DAYS = 30;
-    const LEAD_TIME_DAYS = 7;
-
+    const LOOKBACK_DAYS = 30; 
     const items = await this.repo.getProductsWithSales(LOOKBACK_DAYS);
 
     return items
@@ -16,22 +14,14 @@ export class ReorderService {
         const minStock = p.minStock ?? 0;
         const maxStock = p.maxStock ?? 0;
 
-        const avgDailySales =
-          LOOKBACK_DAYS > 0 ? p.totalSales / LOOKBACK_DAYS : 0;
-
-        const projectedNeed = Math.ceil(avgDailySales * LEAD_TIME_DAYS);
-
-        const targetStock = maxStock > 0
-          ? Math.min(maxStock, projectedNeed)
-          : projectedNeed;
-
-        const suggestedQty = Math.max(0, targetStock - stock);
+        const suggestedQty =
+          maxStock > 0 ? Math.max(0, maxStock - stock) : 0;
 
         let status: "critical" | "warning" | "ok" = "ok";
 
-        if (stock <= 0 || stock < minStock / 2) {
+        if (stock <= minStock) {
           status = "critical";
-        } else if (stock < minStock) {
+        } else if (stock <= minStock + 3) {
           status = "warning";
         }
 
@@ -43,7 +33,7 @@ export class ReorderService {
           stock,
           minStock,
           maxStock,
-          avgDailySales,
+          avgDailySales: p.totalSales / LOOKBACK_DAYS,
           suggestedQty,
           status,
         };

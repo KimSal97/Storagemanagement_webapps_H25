@@ -1,5 +1,8 @@
 import { createId } from "@/lib/id";
 import { salesRepository } from "./salesRepository";
+import { products } from "@/db/schema/products-schema";
+import { db } from "@/db";
+import { eq } from "drizzle-orm";
 
 export const salesService = {
   async create(data: {
@@ -13,6 +16,22 @@ export const salesService = {
     const saleId = createId();
     const soldAt = new Date().toISOString();
 
+    const [product] = await db
+      .select()
+      .from(products)
+      .where(eq(products.id, data.productId));
+
+    if (!product) {
+      throw new Error("Product does not exist");
+    }
+
+    const newStock = Math.max(0, (product.stock ?? 0) - data.quantity);
+
+    await db
+      .update(products)
+      .set({ stock: newStock })
+      .where(eq(products.id, data.productId));
+
     await salesRepository.create({
       id: saleId,
       productId: data.productId,
@@ -21,7 +40,7 @@ export const salesService = {
       createdBy: data.createdBy,
     });
 
-    return { id: saleId, ...data, soldAt };
+    return { id: saleId, ...data, soldAt, newStock };
   },
 
   async list() {
