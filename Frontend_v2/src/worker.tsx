@@ -65,9 +65,12 @@ export default defineApp([
   ...statisticsRoutes,
 
   // Seeder for testdata
-  route("/api/seed", async () => {
+  route("/api/seed", async (ctx) => {
     await seedData();
-    return Response.json({ success: true });
+    //Lagrer URL før seeding slik at redirect kan navigere fra api-ruten
+    //Redirect vil sende brukeren til login-siden etter seeding
+    const url = new URL("/login", ctx.request.url);
+    return Response.redirect(url.toString(), 302);
   }),
 
   // Healthcheck
@@ -93,7 +96,11 @@ export default defineApp([
           <h1>Velkommen!</h1>
           <p>Dette er din Cloudflare-app med D1 og Drizzle.</p>
           <p>Det finnes {allUsers.length} brukere i databasen.</p>
-          <a href="/api/seed">Klikk her for å fylle databasen</a>
+          <form method="post" action="/api/seed">
+            <button type="submit" style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>
+              Klikk her for å fylle databasen
+            </button>
+          </form>
         </div>
       );
     }),
