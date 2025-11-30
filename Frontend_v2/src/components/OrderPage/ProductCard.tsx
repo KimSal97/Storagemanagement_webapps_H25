@@ -1,82 +1,66 @@
 "use client";
 
-import { Sliders } from "lucide-react";
-import ProductCardSlider from "./ProductCardSlider";
 import React from "react";
 
-interface ProductCardProps {
-    title: string;
-    price: number;
-    image?: string;
-    baseStock: number;
-    minimumStock: number;
-    dailySales: number;
-    supplyTimeDays?: number;
-    Status: "good" | "warning" | "critical";
-}
+type Props = {
+  id: string;
+  name: string;
+  price: number;
+  image?: string;
+  onAddToCart: (item: {
+    productId: string;
+    orderedQty: number;
+    unitCost: number;
+  }) => void;
+};
 
 export default function ProductCard({
-    title,
-    price,
-    image = "src/app/shared/missing.png",
-    baseStock,
-    minimumStock,
-    dailySales,
-    supplyTimeDays = 7,
-    Status
-}: ProductCardProps) {
-    const [sliderValue, setSliders] = React.useState({
-        baseStock: baseStock,
-        minimumStock: minimumStock,
-        dailySales: dailySales,
-        supplyTimeDays: supplyTimeDays,
-    });
-      const handleSliderChange = (name: keyof typeof sliderValue, value: number) => {
-    setSliders(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  }; 
+  id,
+  name,
+  price,
+  image = "/placeholder.png",
+  onAddToCart,
+}: Props) {
+  const [qty, setQty] = React.useState(1);
 
-    return (
-        <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md mb-6">
-            <div className="flex gap-4 items-center mb-4">
-                <img
-                    src={image}
-                    alt={title}
-                    className="object-cover w-full h-full rounded"
-                />
-            </div>
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-                <button className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Manage
-                </button>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                    <ProductCardSlider
-                    label="baseStock"
-                    value={sliderValue.baseStock}
-                    onChange={(sliderV) => handleSliderChange("baseStock", sliderV)}
-                    />
-                    <ProductCardSlider
-                    label="minimumStock"
-                    value={sliderValue.minimumStock}
-                    max = {1000}
-                    onChange={(sliderV) => handleSliderChange("minimumStock", sliderV)}
-                    />
-                </div>
-            </div>
-            <div className="mt-4 flex items-center">
-                <span className="text-xl font-bold text-gray-800">Status: </span>
-                <span className={`font-medium ml-2 ${
-                    Status === "good" ? "text-green-600" :
-                    Status === "warning" ? "text-yellow-600" :
-                    "text-red-600"
-                }`}>{Status}
-                </span>
-            </div>
+  const handleAdd = () => {
+    onAddToCart({
+      productId: id,
+      orderedQty: qty,
+      unitCost: price,
+    });
+  };
+
+  return (
+    <div className="bg-white shadow-md border rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-200">
+      <div className="w-full h-56 bg-gray-100 flex items-center justify-center">
+        <img src={image} alt={name} className="object-contain h-full w-full" />
+      </div>
+
+      <div className="p-5">
+        <h3 className="text-xl font-semibold text-gray-900">{name}</h3>
+        <p className="text-gray-600 mb-4">{price} kr</p>
+
+        <label className="block text-sm text-gray-600 mb-1">Antall</label>
+        <div className="flex items-center gap-4">
+          <input
+            type="range"
+            min={1}
+            max={150}
+            value={qty}
+            onChange={(e) => setQty(Number(e.target.value))}
+            className="flex-1"
+          />
+          <span className="text-lg font-semibold">{qty}</span>
         </div>
-    );
+
+        <button
+          onClick={handleAdd}
+          className="mt-5 w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 font-medium"
+        >
+          Legg til
+        </button>
+      </div>
+    </div>
+  );
 }

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import type { Result } from "../types/result";
 import { navigate } from "rwsdk/client";
 
-
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +34,6 @@ const LoginPage = () => {
         return;
       }
       navigate("/dashboard");
-
     } catch {
       setError("Kunne ikke koble til serveren");
     } finally {
@@ -44,53 +42,68 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
+    <div className="relative min-h-screen flex items-center justify-center bg-[#E8F0FA] overflow-hidden">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#4B76DB]/20 rounded-bl-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-[#2E374B]/20 rounded-tr-full blur-3xl"></div>
+      <div className="relative bg-white w-full max-w-md rounded-2xl p-10 shadow-xl border border-[#D9E4F2]">
+        <h1 className="text-center text-3xl font-bold text-[#2E374B] tracking-wide mb-2">
+          Storage Management
+        </h1>
+        <p className="text-center text-sm text-[#4B76DB] mb-8 font-medium">
           Logg inn
-        </h2>
-
-        {error && <div className="text-red-500 text-sm mb-3">{error}</div>}
-
-        <form onSubmit={handleSubmit}>
+        </p>
+        {error && (
+          <div className="text-red-500 text-sm mb-4 text-center">
+            {error}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
             placeholder="E-post"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-3"
+            className="
+              w-full border border-[#94B3B9] rounded-lg px-4 py-2 
+              bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
+            "
           />
           <input
             type="password"
             placeholder="Passord"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-6"
+            className="
+              w-full border border-[#94B3B9] rounded-lg px-4 py-2 
+              bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
+            "
           />
           <button
             type="submit"
             disabled={loading}
-            className={`w-full bg-blue-600 text-white py-2 rounded-lg transition duration-200 ${loading ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-700"
-              }`}
+            className="
+              w-full bg-[#4B76DB] hover:bg-[#3556A5] 
+              text-white py-2 rounded-lg font-semibold
+              transition shadow-sm
+            "
           >
             {loading ? "Logger inn..." : "Logg inn"}
           </button>
         </form>
-
-        <p className="mt-4 text-sm text-center text-gray-500">
-          Har du ingen konto?{" "}
+        <div className="flex justify-between mt-6 text-sm">
           <span
             onClick={() => navigate("/register")}
-            className="text-blue-600 cursor-pointer hover:underline"
+            className="text-[#4B76DB] cursor-pointer hover:underline"
           >
-            <a href="/register" className="text-blue-600 hover:underline">
-              Registrer deg her
-            </a>
-            <p className="mt-2 text-sm text-center text-blue-600 cursor-pointer hover:underline" onClick={() => navigate("/forgot-password")}>
-              Glemt passord?
-            </p>
+            Registrer bruker
           </span>
-        </p>
+          <span
+            onClick={() => navigate("/forgot-password")}
+            className="text-[#4B76DB] cursor-pointer hover:underline"
+          >
+            Glemt passord?
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Result } from "@/types/result";
+import type { Result } from "@/types/result";
 import { navigate } from "rwsdk/client";
 
 const RegisterPage = () => {
@@ -8,6 +8,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -54,60 +55,87 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-6 text-center">
+    <div className="relative min-h-screen flex items-center justify-center bg-[#E8F0FA] overflow-hidden">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#4B76DB]/20 rounded-bl-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-[#2E374B]/20 rounded-tr-full blur-3xl"></div>
+      <div className="relative bg-white w-full max-w-md rounded-2xl p-10 shadow-xl border border-[#D9E4F2]">
+        <h1 className="text-center text-3xl font-bold text-[#2E374B] tracking-wide mb-2">
           Opprett konto
-        </h2>
-
-        {error && <div className="text-red-500 text-sm mb-3">{error}</div>}
-        {success && <div className="text-green-600 text-sm mb-3">{success}</div>}
-
-        <form onSubmit={handleSubmit}>
+        </h1>
+        <p className="text-center text-sm text-[#4B76DB] mb-8 font-medium">
+          Lag en ny brukerkonto
+        </p>
+        {error && (
+          <div className="text-red-500 text-sm mb-3 text-center">
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className="text-green-600 text-sm mb-3 text-center">
+            {success}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
             placeholder="Brukernavn"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-3"
+            className="
+              w-full border border-[#94B3B9] rounded-lg px-4 py-2 
+              bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
+            "
           />
           <input
             type="email"
             placeholder="E-post"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-3"
+            className="
+              w-full border border-[#94B3B9] rounded-lg px-4 py-2 
+              bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
+            "
           />
           <input
             type="password"
             placeholder="Passord"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-3"
+            className="
+              w-full border border-[#94B3B9] rounded-lg px-4 py-2 
+              bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
+            "
           />
           <input
             type="password"
             placeholder="Bekreft passord"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-6"
+            className="
+              w-full border border-[#94B3B9] rounded-lg px-4 py-2 mb-2
+              bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
+            "
           />
           <button
             type="submit"
             disabled={loading}
-            className={`w-full bg-blue-800 text-white py-2 rounded-lg transition duration-200 ${
-              loading ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-700"
-            }`}
+            className="
+              w-full bg-[#4B76DB] hover:bg-[#3556A5] 
+              text-white py-2 rounded-lg font-semibold
+              transition shadow-sm
+            "
           >
             {loading ? "Registrerer..." : "Registrer"}
           </button>
         </form>
-
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Har du allerede en konto?{" "}
-          <a href="/login" className="text-blue-600 hover:underline">
+        <p className="mt-6 text-center text-sm text-gray-600">
+          Har du allerede en konto?
+          <span
+            onClick={() => navigate("/login")}
+            className="ml-1 text-[#4B76DB] cursor-pointer hover:underline"
+          >
             Logg inn her
-          </a>
+          </span>
         </p>
       </div>
     </div>
