@@ -5,7 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import RegisterPage from "@/pages/RegisterPage";
+import RegisterPage from "@/pages/RegisterpageTEMP";
 import LoginPage from "@/pages/LoginPage";
 import OrderPage from "@/pages/OrderPage";
 

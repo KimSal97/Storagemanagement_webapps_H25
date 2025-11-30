@@ -19,7 +19,7 @@ import { reorderRoutes } from "./features/reorder/reorderRoutes";
 import { statisticsRoutes } from "./features/statistics/statisticsRoutes";
 
 
-import RegisterPage from "@/pages/Registerpage";
+import RegisterPage from "@/pages/RegisterpageTEMP";
 import OrderPage from "@/pages/OrderPage";
 import LoginPage from "@/pages/LoginPage";
 import Dashboard from "@/components/Dashboard/Dashboard";
