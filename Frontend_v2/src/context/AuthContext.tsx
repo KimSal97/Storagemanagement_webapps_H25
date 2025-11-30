@@ -1,6 +1,6 @@
 "use client";
 
-import type { User } from "@/db/schema";
+import type { User } from "@/db/schema/Schema_index";
 import { createContext } from "react";
 
 export const AuthContext = createContext<User | undefined>(undefined);
