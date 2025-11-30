@@ -66,7 +66,14 @@ export default defineApp([
 
   // Seeder for testdata
   route("/api/seed", async (ctx) => {
-    await seedData();
+    try {
+      await seedData();
+    } catch (error) {
+      return Response.json(
+        { ok: false, message: "Seeding failed", error: (error as Error).message },
+        { status: 500 }
+      );
+    }
     //Lagrer URL før seeding slik at redirect kan navigere fra api-ruten
     //Redirect vil sende brukeren til login-siden etter seeding
     const url = new URL("/login", ctx.request.url);
