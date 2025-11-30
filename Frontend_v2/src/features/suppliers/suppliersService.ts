@@ -7,6 +7,7 @@ export const suppliersService = {
     email: string;
     phone: string;
     address?: string;
+    status?: "Aktiv" | "Inaktiv";
   }) {
     if (!data.name || !data.contact_person || !data.email || !data.phone) {
       throw new Error("Alle obligatoriske felter må fylles ut");
@@ -30,17 +31,21 @@ export const suppliersService = {
     return supplier;
   },
 
-  async updateSupplier(id: string, data: Partial<{
-    name: string;
-    contact_person: string;
-    email: string;
-    phone: string;
-    address?: string;
-  }>) {
+  async updateSupplier(
+    id: string,
+    data: Partial<{
+      name: string;
+      contact_person: string;
+      email: string;
+      phone: string;
+      address?: string;
+      status?: "Aktiv" | "Inaktiv";
+    }>
+  ) {
     const supplier = await suppliersRepository.findById(id);
     if (!supplier) throw new Error("Leverandør ikke funnet");
 
-    await suppliersRepository.updateById(id, data);
+    return await suppliersRepository.updateById(id, data);
   },
 
   async deleteSupplier(id: string) {

@@ -1,25 +1,28 @@
 import OrderRow from "./OrderRow";
 import { OrderHistoryTypes } from "./OrderHistoryTypes";
 
-export default function OrderTable({ orders }: { orders: OrderHistoryTypes[] }) {
+export default function OrderTable({
+  orders,
+  onOrderClick,
+}: {
+  orders: OrderHistoryTypes[];
+  onOrderClick: (order: OrderHistoryTypes) => void;
+}) {
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-      <table className="w-full text-sm text-left">
-        <thead className="bg-gray-100 text-gray-700">
-          <tr>
-            <th className="px-4 py-2">Dato</th>
-            <th className="px-4 py-2">Bestilling ID</th>
-            <th className="px-4 py-2">Produkt(er)</th>
-            <th className="px-4 py-2">Leverandør</th>
-            <th className="px-4 py-2">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <OrderRow key={order.id} order={order} />
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+      <thead className="bg-gray-100 text-left">
+        <tr>
+          <th className="p-3 text-sm font-semibold">ID</th>
+          <th className="p-3 text-sm font-semibold">Dato</th>
+          <th className="p-3 text-sm font-semibold">Status</th>
+          <th className="p-3 text-sm font-semibold">Totalpris</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order) => (
+          <OrderRow key={order.id} order={order} onClick={() => onOrderClick(order)} />
+        ))}
+      </tbody>
+    </table>
   );
 }

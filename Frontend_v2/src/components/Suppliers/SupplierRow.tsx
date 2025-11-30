@@ -13,7 +13,7 @@ export default function SupplierRow({
   onDelete: () => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLTableCellElement>(null); 
+  const menuRef = useRef<HTMLTableCellElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -38,6 +38,16 @@ export default function SupplierRow({
           {supplier.email}
         </a>
       </td>
+
+      <td className="px-4 py-3">
+        <span className={`px-2 py-1 rounded text-xs ${supplier.status === "Aktiv"
+            ? "bg-green-100 text-green-700"
+            : "bg-gray-200 text-gray-700"
+          }`}>
+          {supplier.status}
+        </span>
+      </td>
+
 
       <td className="px-4 py-3 text-right relative" ref={menuRef}>
         <button

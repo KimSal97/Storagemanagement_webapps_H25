@@ -10,6 +10,7 @@ export const suppliersRepository = {
     email: string;
     phone: string;
     address?: string;
+    status?: "Aktiv" | "Inaktiv";
   }) {
     await db.insert(suppliers).values({
       id: createId(),
@@ -18,6 +19,7 @@ export const suppliersRepository = {
       email: data.email,
       phone: data.phone,
       address: data.address,
+      status: data.status ?? "Aktiv",
     });
   },
 
@@ -26,15 +28,32 @@ export const suppliersRepository = {
   },
 
   async findByEmail(email: string) {
-    return await db.select().from(suppliers).where(eq(suppliers.email, email)).get();
+    return await db
+      .select()
+      .from(suppliers)
+      .where(eq(suppliers.email, email))
+      .get();
   },
 
   async findById(id: string) {
-    return await db.select().from(suppliers).where(eq(suppliers.id, id)).get();
+    return await db
+      .select()
+      .from(suppliers)
+      .where(eq(suppliers.id, id))
+      .get();
   },
 
   async updateById(id: string, data: Partial<typeof suppliers.$inferInsert>) {
-    await db.update(suppliers).set(data).where(eq(suppliers.id, id));
+    await db
+      .update(suppliers)
+      .set(data)
+      .where(eq(suppliers.id, id));
+
+    return await db
+      .select()
+      .from(suppliers)
+      .where(eq(suppliers.id, id))
+      .get();
   },
 
   async deleteById(id: string) {
