@@ -19,7 +19,7 @@ import { reorderRoutes } from "./features/reorder/reorderRoutes";
 import { statisticsRoutes } from "./features/statistics/statisticsRoutes";
 
 
-import RegisterPage from "@/pages/Registerpage";
+import RegisterPage from "@/pages/RegisterPage";
 import OrderPage from "@/pages/OrderPage";
 import LoginPage from "@/pages/LoginPage";
 import Dashboard from "@/components/Dashboard/Dashboard";
@@ -65,9 +65,19 @@ export default defineApp([
   ...statisticsRoutes,
 
   // Seeder for testdata
-  route("/api/seed", async () => {
-    await seedData();
-    return Response.json({ success: true });
+  route("/api/seed", async (ctx) => {
+    try {
+      await seedData();
+    } catch (error) {
+      return Response.json(
+        { ok: false, message: "Seeding failed", error: (error as Error).message },
+        { status: 500 }
+      );
+    }
+    //Lagrer URL før seeding slik at redirect kan navigere fra api-ruten
+    //Redirect vil sende brukeren til login-siden etter seeding
+    const url = new URL("/login", ctx.request.url);
+    return Response.redirect(url.toString(), 302);
   }),
 
   // Healthcheck
@@ -93,7 +103,11 @@ export default defineApp([
           <h1>Velkommen!</h1>
           <p>Dette er din Cloudflare-app med D1 og Drizzle.</p>
           <p>Det finnes {allUsers.length} brukere i databasen.</p>
-          <a href="/api/seed">Klikk her for å fylle databasen</a>
+          <form method="post" action="/api/seed">
+            <button type="submit" style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>
+              Klikk her for å fylle databasen
+            </button>
+          </form>
         </div>
       );
     }),

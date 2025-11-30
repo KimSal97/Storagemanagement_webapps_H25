@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { orders, orderItems } from "@/db/schema/orders-schema";
+import { products } from "@/db/schema/products-schema";
 import { eq } from "drizzle-orm";
 
 export const ordersRepository = {
@@ -16,6 +17,7 @@ export const ordersRepository = {
     id: string;
     orderId: string;
     productId: string;
+     productName: string;
     orderedQty: number;
     unitCost: number;
   }) {
@@ -24,11 +26,22 @@ export const ordersRepository = {
 
   async findAll() {
     const allOrders = await db.select().from(orders);
-    const allItems = await db.select().from(orderItems);
+
+    const items = await db
+      .select({
+        id: orderItems.id,
+        orderId: orderItems.orderId,
+        productId: orderItems.productId,
+        orderedQty: orderItems.orderedQty,
+        unitCost: orderItems.unitCost,
+        productName: products.name, 
+      })
+      .from(orderItems)
+      .leftJoin(products, eq(orderItems.productId, products.id));
 
     return allOrders.map((o) => ({
       ...o,
-      items: allItems.filter((i) => i.orderId === o.id),
+      items: items.filter((i) => i.orderId === o.id),
     }));
   },
 
@@ -37,8 +50,16 @@ export const ordersRepository = {
     if (!order) return null;
 
     const items = await db
-      .select()
+      .select({
+        id: orderItems.id,
+        orderId: orderItems.orderId,
+        productId: orderItems.productId,
+        orderedQty: orderItems.orderedQty,
+        unitCost: orderItems.unitCost,
+        productName: products.name, 
+      })
       .from(orderItems)
+      .leftJoin(products, eq(orderItems.productId, products.id))
       .where(eq(orderItems.orderId, id));
 
     return { ...order, items };
@@ -46,7 +67,6 @@ export const ordersRepository = {
 
   async update(id: string, data: { status?: string }) {
     await db.update(orders).set(data).where(eq(orders.id, id));
-
     return this.findById(id);
   },
 

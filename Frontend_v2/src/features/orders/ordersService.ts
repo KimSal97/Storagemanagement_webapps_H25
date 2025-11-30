@@ -2,7 +2,14 @@ import { createId } from "@/lib/id";
 import { ordersRepository } from "./ordersRepository";
 
 export const ordersService = {
-  async create(items: { productId: string; orderedQty: number; unitCost: number }[]) {
+  async create(
+    items: {
+      productId: string;
+      productName: string;
+      orderedQty: number;
+      unitCost: number;
+    }[]
+  ) {
     if (!Array.isArray(items) || items.length === 0) {
       throw new Error("Order must contain items");
     }
@@ -21,6 +28,7 @@ export const ordersService = {
         id: createId(),
         orderId,
         productId: item.productId,
+        productName: item.productName, 
         orderedQty: item.orderedQty,
         unitCost: item.unitCost,
       });

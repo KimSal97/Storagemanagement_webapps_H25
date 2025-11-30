@@ -15,7 +15,7 @@ export default function ProductsGrid({ products, onAddToCart }: Props) {
         <ProductCard
           key={p.id}
           id={p.id}
-          title={p.name}
+          name={p.name}  
           price={p.price}
           image={p.image}
           onAddToCart={onAddToCart}

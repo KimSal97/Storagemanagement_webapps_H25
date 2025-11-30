@@ -20,7 +20,7 @@
     "migrate:new": "drizzle-kit generate",
     "migrate:dev": "wrangler d1 migrations apply DB --local",
     "migrate:prod": "wrangler d1 migrations apply DB --remote",
-    "seed": "npm run worker:run ./src/db/seed.ts"
+    "seed": "wrangler d1 execute DB --local ./drizzle/seed/seed.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
