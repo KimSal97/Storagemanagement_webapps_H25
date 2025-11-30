@@ -11,6 +11,7 @@ export const orderItems = sqliteTable("order_items", {
   id: text("id").primaryKey(),
   orderId: text("order_id").notNull(),
   productId: text("product_id").notNull(),
+  productName: text("product_name").notNull(),
   orderedQty: integer("ordered_qty").notNull(),
   unitCost: real("unit_cost").notNull(),
 });
