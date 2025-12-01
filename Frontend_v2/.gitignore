@@ -66,3 +66,7 @@ coverage
 .wrangler
 
 generated/
+
+# Vitest cache
+.vitest/
+.vitest/coverage

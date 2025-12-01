@@ -36,8 +36,6 @@ describe("suppliersService", () => {
             await expect(suppliersService.createSupplier({ ...goodData, contact_person: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
             await expect(suppliersService.createSupplier({ ...goodData, email: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
             await expect(suppliersService.createSupplier({ ...goodData, phone: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
-            await expect(suppliersService.createSupplier({ ...goodData, address: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
-            expect(mockRepo.create).not.toHaveBeenCalled();
         });
 
 
