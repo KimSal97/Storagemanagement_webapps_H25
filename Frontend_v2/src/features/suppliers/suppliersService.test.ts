@@ -51,6 +51,14 @@ describe("suppliersService", () => {
             // Her også, sørg for at create ikke blir kalt når leverandør med e-post allerede finnes
             expect(mockRepo.create).not.toHaveBeenCalled();
         });
+        
+        it("skaper leverandør når data er gyldig og e-post er ledig", async () => {
+            mockRepo.findByEmail.mockResolvedValueOnce(undefined);
+            await suppliersService.createSupplier(goodData);
+            expect(mockRepo.findByEmail).toHaveBeenCalledWith(goodData.email);
+            expect(mockRepo.create).toHaveBeenCalledWith(goodData);
+        });
+
 
         
 
