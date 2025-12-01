@@ -31,6 +31,7 @@ describe("suppliersService", () => {
             address: "123 Street",
             status: "Aktiv" as const,
         };
+        
         it("Kaster Error hvis felter mangler", async () => {
             await expect(suppliersService.createSupplier({ ...goodData, name: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
             await expect(suppliersService.createSupplier({ ...goodData, contact_person: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
@@ -59,11 +60,17 @@ describe("suppliersService", () => {
             expect(mockRepo.create).toHaveBeenCalledWith(goodData);
         });
 
-
-        
-
-
-
     });
+    describe("updateSupplier", () => {
+        const id = "supplier-john";
+        const existingSupplier = {
+            id,
+            name: "John the Supplier",
+            contact_person: "John Doe",
+            email: "johnA@mail.com",
+            phone: "87654321",
+            address: "321 Avenue",
+            status: "Aktiv" as const,
+        };
 
 });
