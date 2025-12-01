@@ -18,6 +18,10 @@ import { suppliersRepository } from "./suppliersRepository";
 
 const mockRepo = suppliersRepository as Mocked<typeof suppliersRepository>;
 
+//--------------------------------------------------------
+// Tests for suppliersService
+//--------------------------------------------------------
+
 describe("suppliersService", () => {
     beforeEach(() => {
     vi.clearAllMocks();
@@ -61,6 +65,10 @@ describe("suppliersService", () => {
         });
 
     });
+
+    //--------------------------------------------------------
+    //Test for updateSupplier
+    //--------------------------------------------------------
     describe("updateSupplier", () => {
         const id = "supplier-john";
         const existingSupplier = {
@@ -72,5 +80,34 @@ describe("suppliersService", () => {
             address: "321 Avenue",
             status: "Aktiv" as const,
         };
+        //Nye verdier for oppdatering
+        const updateData = {
+            name: "Supplier John the Updated",
+            contact_person: "John Updated",
+            email: "john_update@mail.com",
+            phone: "123123123",
+            address: "New Address 456",
+            status: "Inaktiv" as const,
+        };
 
+        it("Kaster Error hvis leverandør blir funnet", async () => {
+            mockRepo.findById.mockResolvedValueOnce(undefined);
+            await expect(
+                suppliersService.updateSupplier(id, updateData)
+            ).rejects.toThrow("Leverandør ikke funnet");
+
+            expect(mockRepo.updateById).not.toHaveBeenCalled();
+        });
+        it("kaller repository og returnerer oppdatert leverandør når supplier finnes", async () => {
+            mockRepo.findById.mockResolvedValueOnce(existingSupplier as any);
+            mockRepo.updateById.mockResolvedValueOnce({
+                ...existingSupplier,
+                ...updateData,
+            } as any);
+            const result = await suppliersService.updateSupplier(id, updateData);
+            expect(mockRepo.findById).toHaveBeenCalledWith(id);
+            expect(mockRepo.updateById).toHaveBeenCalledWith(id, updateData);
+            expect(result).toEqual({ ...existingSupplier, ...updateData });
+        });
+    });
 });
