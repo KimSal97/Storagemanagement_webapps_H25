@@ -1,4 +1,4 @@
-import { describe, vi } from "vitest";
+import { describe, vi, type Mocked } from "vitest";
 
 vi.mock("./suppliersrepository", async () => ({
   suppliersRepository: {
@@ -10,3 +10,9 @@ vi.mock("./suppliersrepository", async () => ({
     deleteById: vi.fn(),
   },
 }));
+
+import { suppliersService } from "./suppliersService";
+import { suppliersRepository } from "./suppliersRepository";
+
+const mockRepo = suppliersRepository as Mocked<typeof suppliersRepository>;
+
