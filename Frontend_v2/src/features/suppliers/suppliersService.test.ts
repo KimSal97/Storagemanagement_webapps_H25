@@ -1,6 +1,8 @@
-import { describe, vi, type Mocked } from "vitest";
+import { describe, vi, type Mocked, beforeEach } from "vitest";
 
-vi.mock("./suppliersrepository", async () => ({
+
+//Fake the repository module
+vi.mock("./suppliersRepository", async () => ({
   suppliersRepository: {
     findByEmail: vi.fn(),
     create: vi.fn(),
@@ -16,3 +18,8 @@ import { suppliersRepository } from "./suppliersRepository";
 
 const mockRepo = suppliersRepository as Mocked<typeof suppliersRepository>;
 
+describe("suppliersService", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+});
