@@ -137,6 +137,11 @@ const RegisterPage = () => {
               }
             `}
           />
+            {!isEmailValid && email.trim() !== "" && (
+            <p className="text-xs text-red-500 mt-1">
+              E-postadressen må inneholde @ og top domenenavn.
+            </p>
+          )}
           <div>
             <input
               type="password"
