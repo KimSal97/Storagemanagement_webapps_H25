@@ -36,14 +36,24 @@ describe("suppliersService", () => {
             await expect(suppliersService.createSupplier({ ...goodData, contact_person: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
             await expect(suppliersService.createSupplier({ ...goodData, email: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
             await expect(suppliersService.createSupplier({ ...goodData, phone: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
+
+            // Sørg for at create ikke blir kalt når det mangler felt
+            expect(mockRepo.create).not.toHaveBeenCalled();
         });
+
+
         it("Kaster Error hvis leverandør med e-post allerede finnes", async () => {
             mockRepo.findByEmail.mockResolvedValueOnce({ id: "1" } as any);
             await expect(
                 suppliersService.createSupplier(goodData)
             ).rejects.toThrow("En leverandør med denne e-posten finnes allerede");
+
+            // Her også, sørg for at create ikke blir kalt når leverandør med e-post allerede finnes
+            expect(mockRepo.create).not.toHaveBeenCalled();
         });
+
         
+
 
 
     });
