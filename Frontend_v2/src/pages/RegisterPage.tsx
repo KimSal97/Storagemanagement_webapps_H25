@@ -13,6 +13,16 @@ const RegisterPage = () => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Email validation criteria
+  const validateEmail = (email: string) => {
+    const hasAt = email.includes("@");
+    const hasDot = email.includes(".");
+    const validFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return hasAt && hasDot && validFormat;
+  };
+
+  const isEmailValid = email.trim() === "" || validateEmail(email);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -21,6 +31,12 @@ const RegisterPage = () => {
 
     if (!username.trim() || !email.trim() || !password.trim()) {
       setError("Alle feltene må fylles ut.");
+      setLoading(false);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Ugyldig e-postadresse.");
       setLoading(false);
       return;
     }
@@ -91,10 +107,15 @@ const RegisterPage = () => {
             placeholder="E-post"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="
-              w-full border border-[#94B3B9] rounded-lg px-4 py-2 
-              bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
-            "
+            className={`
+              w-full border rounded-lg px-4 py-2 
+              bg-white focus:ring-2 outline-none transition
+              ${
+                isEmailValid
+                  ? "border-[#94B3B9] focus:ring-[#4B76DB]"
+                  : "border-red-500 focus:ring-red-500 bg-red-50"
+              }
+            `}
           />
           <input
             type="password"
