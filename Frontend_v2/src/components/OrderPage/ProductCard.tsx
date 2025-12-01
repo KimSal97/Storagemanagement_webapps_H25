@@ -10,6 +10,7 @@ type Props = {
   onAddToCart: (item: {
     productId: string;
     orderedQty: number;
+    productName: string;
     unitCost: number;
   }) => void;
 };
@@ -26,6 +27,7 @@ export default function ProductCard({
   const handleAdd = () => {
     onAddToCart({
       productId: id,
+      productName: name,
       orderedQty: qty,
       unitCost: price,
     });

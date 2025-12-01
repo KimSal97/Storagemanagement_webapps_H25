@@ -9,6 +9,7 @@ import type { Product } from "@/components/Products/ProductTypes";
 
 type CartItem = {
   productId: string;
+  productName: string;
   orderedQty: number;
   unitCost: number;
 };
