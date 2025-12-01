@@ -9,6 +9,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "test" : "vitest",
+    "test-run": "vitest run",
+    "test-ui": "vitest --ui",
     "build": "vite build",
     "dev": "vite dev",
     "dev:init": "rw-scripts dev-init",
