@@ -23,6 +23,26 @@ const RegisterPage = () => {
 
   const isEmailValid = email.trim() === "" || validateEmail(email);
 
+  // Måler Passordstyrke basert på criteria
+  // små bokstaver, store bokstaver, tall, spesialtegn, lengde.
+  const getPasswordStrength = (password: string) => {
+    if (password.length === 0) return { strength: 0, label: "", color: "" };
+
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.length >= 12) strength++;
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+    if (/\d/.test(password)) strength++;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+
+    if (strength <= 1) return { strength: 1, label: "Svak", color: "bg-red-500" };
+    if (strength === 2) return { strength: 2, label: "Middels", color: "bg-yellow-500" };
+    if (strength === 3) return { strength: 3, label: "God", color: "bg-blue-500" };
+    return { strength: 4, label: "Sterk", color: "bg-green-500" };
+  };
+
+  const passwordStrength = getPasswordStrength(password);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -117,16 +137,38 @@ const RegisterPage = () => {
               }
             `}
           />
-          <input
-            type="password"
-            placeholder="Passord"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="
-              w-full border border-[#94B3B9] rounded-lg px-4 py-2 
-              bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
-            "
-          />
+          <div>
+            <input
+              type="password"
+              placeholder="Passord"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="
+                w-full border border-[#94B3B9] rounded-lg px-4 py-2 
+                bg-white focus:ring-2 focus:ring-[#4B76DB] outline-none
+              "
+            />
+            {password && (
+              <div className="mt-2">
+                <div className="flex gap-1 mb-1">
+                  {[1, 2, 3, 4].map((level) => (
+                    <div
+                      key={level}
+                      className={`h-1.5 flex-1 rounded-full transition-all ${
+                        level <= passwordStrength.strength
+                          ? passwordStrength.color
+                          : "bg-gray-200"
+                      }`}
+                    ></div>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-600">
+                  Passordstyrke:{" "}
+                  <span className="font-medium">{passwordStrength.label}</span>
+                </p>
+              </div>
+            )}
+          </div>
           <input
             type="password"
             placeholder="Bekreft passord"
