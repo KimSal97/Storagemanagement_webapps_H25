@@ -10,6 +10,7 @@
   "private": true,
   "scripts": {
     "test": "vitest",
+    "test:int": "vitest --config vitest.integration.config.ts",
     "test-run": "vitest run",
     "test-ui": "vitest --ui",
     "build": "vite build",
