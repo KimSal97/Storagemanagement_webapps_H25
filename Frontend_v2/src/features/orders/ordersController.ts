@@ -3,7 +3,7 @@ import { ordersService } from "./ordersService";
 export const ordersController = {
   async create(request: Request) {
     const body = (await request.json()) as {
-      items: { productId: string; orderedQty: number; unitCost: number }[];
+      items: { productId: string; productName: string; orderedQty: number; unitCost: number }[];
     };
 
     try {
