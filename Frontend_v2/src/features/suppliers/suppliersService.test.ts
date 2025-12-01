@@ -32,12 +32,11 @@ describe("suppliersService", () => {
             status: "Aktiv" as const,
         };
         it("Kaster Error hvis felter mangler", async () => {
-            await expect(suppliersService.createSupplier({ ...goodData, name: "" })).rejects.toThrow("Alle felter må fylles ut");
-            await expect(suppliersService.createSupplier({ ...goodData, contact_person: "" })).rejects.toThrow("Alle felter må fylles ut");
-            await expect(suppliersService.createSupplier({ ...goodData, email: "" })).rejects.toThrow("Alle felter må fylles ut");
-            await expect(suppliersService.createSupplier({ ...goodData, phone: "" })).rejects.toThrow("Alle felter må fylles ut");
-            await expect(suppliersService.createSupplier({ ...goodData, address: "" })).rejects.toThrow("Alle felter må fylles ut");
-
+            await expect(suppliersService.createSupplier({ ...goodData, name: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
+            await expect(suppliersService.createSupplier({ ...goodData, contact_person: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
+            await expect(suppliersService.createSupplier({ ...goodData, email: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
+            await expect(suppliersService.createSupplier({ ...goodData, phone: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
+            await expect(suppliersService.createSupplier({ ...goodData, address: "" })).rejects.toThrow("Alle obligatoriske felter må fylles ut");
             expect(mockRepo.create).not.toHaveBeenCalled();
         });
 
