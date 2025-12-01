@@ -9,7 +9,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test" : "vitest",
+    "test": "vitest",
     "test-run": "vitest run",
     "test-ui": "vitest --ui",
     "build": "vite build",
@@ -55,6 +55,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/ui": "4.0.14",
     "autoprefixer": "^10.4.21",
     "babel-plugin-react-compiler": "19.1.0-rc.3",
     "drizzle-kit": "^0.31.6",
