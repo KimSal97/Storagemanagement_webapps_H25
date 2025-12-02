@@ -1,15 +1,16 @@
-import { db } from "@/db";
-import { suppliers } from "@/db/schema/suppliers-schema";
+//bruker relative path fordi vitest klarer ikke å resolve alias her
+import { db } from "../../db";
+import { suppliers } from "../../db/schema/suppliers-schema";
 import { eq } from "drizzle-orm";
-import { createId } from "@/lib/id";
+import { createId } from "../../lib/id";
 
 //Foreløpig løsning for å kunne bytte database i tester
 //(kan forbedres med dependency injection senere om ønskelig)
-let currentDb = db;
+let currentDb: any = db;
 
 
 // Bytter database til en annen (f.eks. test-db)
-export function setSuppliersRepositoryDb(newDb: typeof db) {
+export function setSuppliersRepositoryDb(newDb: any) {
   currentDb = newDb;
 }
 
