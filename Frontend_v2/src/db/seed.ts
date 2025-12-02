@@ -131,7 +131,7 @@ export async function seedData() {
       price: 59,
       supplier: "NorgesGruppen Logistikk",
       location: "Hylle B6",
-      image: "httpsum.photos/seed/skrutrekker/300/300",
+      image: "https://picsum.photos/seed/skrutrekker/300/300",
     },
     {
       id: createId(),

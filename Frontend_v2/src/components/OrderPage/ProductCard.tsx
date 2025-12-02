@@ -4,19 +4,20 @@ import React from "react";
 
 type Props = {
   id: string;
-  title: string;
+  name: string;
   price: number;
   image?: string;
   onAddToCart: (item: {
     productId: string;
     orderedQty: number;
+    productName: string;
     unitCost: number;
   }) => void;
 };
 
 export default function ProductCard({
   id,
-  title,
+  name,
   price,
   image = "/placeholder.png",
   onAddToCart,
@@ -26,6 +27,7 @@ export default function ProductCard({
   const handleAdd = () => {
     onAddToCart({
       productId: id,
+      productName: name,
       orderedQty: qty,
       unitCost: price,
     });
@@ -34,11 +36,11 @@ export default function ProductCard({
   return (
     <div className="bg-white shadow-md border rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-200">
       <div className="w-full h-56 bg-gray-100 flex items-center justify-center">
-        <img src={image} alt={title} className="object-contain h-full w-full" />
+        <img src={image} alt={name} className="object-contain h-full w-full" />
       </div>
 
       <div className="p-5">
-        <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
+        <h3 className="text-xl font-semibold text-gray-900">{name}</h3>
         <p className="text-gray-600 mb-4">{price} kr</p>
 
         <label className="block text-sm text-gray-600 mb-1">Antall</label>

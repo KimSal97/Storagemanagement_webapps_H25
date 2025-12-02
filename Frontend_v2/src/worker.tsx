@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { seedData } from "@/db/seed";
 import { setCommonHeaders } from "@/app/headers";
 
-import { users } from "@/db/schema/user-schema";
+import { users } from "@/db/schema/Schema_index";
 import { suppliers } from "@/db/schema/suppliers-schema";
 
 import { authRoutes } from "@/features/auth/authRoutes";
@@ -19,7 +19,7 @@ import { reorderRoutes } from "./features/reorder/reorderRoutes";
 import { statisticsRoutes } from "./features/statistics/statisticsRoutes";
 
 
-import RegisterPage from "@/pages/Registerpage";
+import RegisterPage from "@/pages/RegisterPage";
 import OrderPage from "@/pages/OrderPage";
 import LoginPage from "@/pages/LoginPage";
 import Dashboard from "@/components/Dashboard/Dashboard";

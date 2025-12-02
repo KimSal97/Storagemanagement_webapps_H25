@@ -1,7 +1,23 @@
-import { db } from "@/db";
-import { suppliers } from "@/db/schema/suppliers-schema";
+//bruker relative path fordi vitest klarer ikke å resolve alias her
+import { db } from "../../db";
+import { suppliers } from "../../db/schema/suppliers-schema";
 import { eq } from "drizzle-orm";
-import { createId } from "@/lib/id";
+import { createId } from "../../lib/id";
+
+//Foreløpig løsning for å kunne bytte database i tester
+//(kan forbedres med dependency injection senere om ønskelig)
+let currentDb: any = db;
+
+
+// Bytter database til en annen (f.eks. test-db)
+export function setSuppliersRepositoryDb(newDb: any) {
+  currentDb = newDb;
+}
+
+// Resetter til hoved-databasen
+export function resetSuppliersRepositoryDb() {
+  currentDb = db;
+}
 
 export const suppliersRepository = {
   async create(data: {
@@ -12,7 +28,7 @@ export const suppliersRepository = {
     address?: string;
     status?: "Aktiv" | "Inaktiv";
   }) {
-    await db.insert(suppliers).values({
+    await currentDb.insert(suppliers).values({
       id: createId(),
       name: data.name,
       contact_person: data.contact_person,
@@ -24,11 +40,11 @@ export const suppliersRepository = {
   },
 
   async findAll() {
-    return await db.select().from(suppliers);
+    return await currentDb.select().from(suppliers);
   },
 
   async findByEmail(email: string) {
-    return await db
+    return await currentDb
       .select()
       .from(suppliers)
       .where(eq(suppliers.email, email))
@@ -36,7 +52,7 @@ export const suppliersRepository = {
   },
 
   async findById(id: string) {
-    return await db
+    return await currentDb
       .select()
       .from(suppliers)
       .where(eq(suppliers.id, id))
@@ -44,12 +60,12 @@ export const suppliersRepository = {
   },
 
   async updateById(id: string, data: Partial<typeof suppliers.$inferInsert>) {
-    await db
+    await currentDb
       .update(suppliers)
       .set(data)
       .where(eq(suppliers.id, id));
 
-    return await db
+    return await currentDb
       .select()
       .from(suppliers)
       .where(eq(suppliers.id, id))
@@ -57,6 +73,6 @@ export const suppliersRepository = {
   },
 
   async deleteById(id: string) {
-    await db.delete(suppliers).where(eq(suppliers.id, id));
+    await currentDb.delete(suppliers).where(eq(suppliers.id, id));
   },
 };
