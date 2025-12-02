@@ -2,6 +2,7 @@
 import Sidebar from "@/components/Dashboard/Sidebar";
 import ProfileSettings from "./ProfileSettings";
 import PreferenceSettings from "./PreferenceSettings";
+import PasswordSettings from "./PasswordSettings";
 
 export default function SettingsPage() {
   return (
@@ -16,6 +17,8 @@ export default function SettingsPage() {
           <div className="my-6 border-t" />
           <PreferenceSettings />
         </div>
+        <div className="my-6 border-t" />
+        <PasswordSettings />
       </div>
     </div>
   );
