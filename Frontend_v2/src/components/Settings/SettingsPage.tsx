@@ -3,6 +3,7 @@ import Sidebar from "@/components/Dashboard/Sidebar";
 import ProfileSettings from "./ProfileSettings";
 import PreferenceSettings from "./PreferenceSettings";
 import PasswordSettings from "./PasswordSettings";
+import DeleteAccountSection from "./DeleteAccountSection";
 
 export default function SettingsPage() {
   return (
@@ -18,7 +19,9 @@ export default function SettingsPage() {
           <PreferenceSettings />
         </div>
         <div className="my-6 border-t" />
-        <PasswordSettings />
+          <PasswordSettings />
+        <div className="my-6 border-t" />
+          <DeleteAccountSection />
       </div>
     </div>
   );
