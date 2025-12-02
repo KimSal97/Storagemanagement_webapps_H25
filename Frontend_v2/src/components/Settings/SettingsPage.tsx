@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/Dashboard/Sidebar";
 import ProfileSettings from "./ProfileSettings";
+import PreferenceSettings from "./PreferenceSettings";
 
 export default function SettingsPage() {
   return (
@@ -12,6 +13,8 @@ export default function SettingsPage() {
 
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <ProfileSettings />
+          <div className="my-6 border-t" />
+          <PreferenceSettings />
         </div>
       </div>
     </div>
