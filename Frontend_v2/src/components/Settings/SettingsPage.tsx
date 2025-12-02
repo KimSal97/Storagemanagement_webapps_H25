@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/Dashboard/Sidebar";
+import ProfileSettings from "./ProfileSettings";
 
 export default function SettingsPage() {
   return (
@@ -10,9 +11,7 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-semibold mb-6">Innstillinger</h1>
 
         <div className="bg-white p-6 rounded-xl shadow-sm">
-          <p className="text-gray-600">
-            lorem ipsum
-          </p>
+          <ProfileSettings />
         </div>
       </div>
     </div>
