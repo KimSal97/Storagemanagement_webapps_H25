@@ -65,9 +65,13 @@ export default defineApp([
   ...statisticsRoutes,
 
   // Seeder for testdata
-  route("/api/seed", async () => {
+
+  route("/api/seed", async (ctx) => {
     await seedData();
-    return Response.json({ success: true });
+    //Lagrer URL før seeding slik at redirect kan navigere fra api-ruten
+    //Redirect vil sende brukeren til login-siden etter seeding
+    const url = new URL("/login", ctx.request.url);
+    return Response.redirect(url.toString(), 302);
   }),
 
   // Healthcheck
