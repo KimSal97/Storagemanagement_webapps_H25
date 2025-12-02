@@ -31,6 +31,8 @@ import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import ProductsPage from "./pages/ProductsPage";
 import SalesPage from "@/components/Sales/SalesPage";
 import StatisticsPage from "./components/Statistics/StatisticsPage";
+import { Settings } from "lucide-react";
+import SettingsPage from "./components/Settings/SettingsPage";
 
 // App context 
 export interface Env {
@@ -114,6 +116,7 @@ export default defineApp([
     route("/suppliers", SuppliersPage),
     route("/products", ProductsPage),
     route("/sales", SalesPage),
-    route("/statistics", StatisticsPage)
+    route("/statistics", StatisticsPage),
+    route("/settings", SettingsPage),
   ]),
 ]);
