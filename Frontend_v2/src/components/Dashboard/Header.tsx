@@ -16,9 +16,9 @@ export default function Header({ onSearch }: { onSearch: (v: string) => void }) 
           className="border rounded-lg px-3 py-2 w-64 text-sm"
         />
         <Bell className="text-gray-500 cursor-pointer" size={20} />
-        <button className="flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition">
+        <a href="/order" className="flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition">
           <Plus size={16} /> Ny bestilling
-        </button>
+        </a>
       </div>
     </header>
   );
