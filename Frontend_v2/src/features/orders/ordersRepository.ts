@@ -1,47 +1,70 @@
 import { db } from "@/db";
 import { orders, orderItems } from "@/db/schema/orders-schema";
 import { products } from "@/db/schema/products-schema";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
+
+export type CreateOrderRow = {
+  id: string;
+  createdAt: string;
+  status: string;
+  totalCost: number;
+};
+
+export type CreateOrderItemRow = {
+  id: string;
+  orderId: string;
+  productId: string;
+  productName: string; 
+  orderedQty: number;
+  unitCost: number;
+};
 
 export const ordersRepository = {
-  async create(orderId: string, totalCost: number) {
-    await db.insert(orders).values({
-      id: orderId,
-      createdAt: new Date().toISOString(),
-      status: "pending",
-      totalCost,
-    });
+  async create(orderRow: CreateOrderRow) {
+    await db.insert(orders).values(orderRow);
   },
 
-  async addItem(item: {
-    id: string;
-    orderId: string;
-    productId: string;
-     productName: string;
-    orderedQty: number;
-    unitCost: number;
-  }) {
-    await db.insert(orderItems).values(item);
+  async addItem(itemRow: CreateOrderItemRow) {
+    await db.insert(orderItems).values(itemRow);
+  },
+
+  async getProductsByIds(ids: string[]) {
+    if (ids.length === 0) return [];
+    return db
+      .select({
+        id: products.id,
+        name: products.name,
+        price: products.price,
+      })
+      .from(products)
+      .where(inArray(products.id, ids));
   },
 
   async findAll() {
     const allOrders = await db.select().from(orders);
 
-    const items = await db
+    const allItems = await db
       .select({
         id: orderItems.id,
         orderId: orderItems.orderId,
         productId: orderItems.productId,
+        productName: orderItems.productName,
         orderedQty: orderItems.orderedQty,
         unitCost: orderItems.unitCost,
-        productName: products.name, 
       })
-      .from(orderItems)
-      .leftJoin(products, eq(orderItems.productId, products.id));
+      .from(orderItems);
+
+    const itemsByOrderId = new Map<string, typeof allItems>();
+
+    for (const item of allItems) {
+      const arr = itemsByOrderId.get(item.orderId) ?? [];
+      arr.push(item);
+      itemsByOrderId.set(item.orderId, arr);
+    }
 
     return allOrders.map((o) => ({
       ...o,
-      items: items.filter((i) => i.orderId === o.id),
+      items: itemsByOrderId.get(o.id) ?? [],
     }));
   },
 
@@ -54,12 +77,11 @@ export const ordersRepository = {
         id: orderItems.id,
         orderId: orderItems.orderId,
         productId: orderItems.productId,
+        productName: orderItems.productName,
         orderedQty: orderItems.orderedQty,
         unitCost: orderItems.unitCost,
-        productName: products.name, 
       })
       .from(orderItems)
-      .leftJoin(products, eq(orderItems.productId, products.id))
       .where(eq(orderItems.orderId, id));
 
     return { ...order, items };
